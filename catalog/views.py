@@ -4,11 +4,11 @@ from config.settings import ENTRY_PATH
 # Create your views here.
 
 
-def get_home(request):
+def home(request):
     return render(request, 'catalog/homepage.html')
 
 
-def take_contacts(request):
+def contacts(request):
     if request.method == "POST":
         name = request.POST.get('name')
         phone = request.POST.get('phone')
