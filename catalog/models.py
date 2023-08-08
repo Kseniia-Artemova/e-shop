@@ -12,7 +12,23 @@ class Product(models.Model):
     creation_date = models.DateField(auto_now_add=True, verbose_name='Дата создания')
     change_date = models.DateField(auto_now=True, verbose_name='Дата последнего изменения')
 
+    def __str__(self):
+        return f"{self.name}"
+
+    class Meta:
+        verbose_name = 'Продукт'
+        verbose_name_plural = 'Продукты'
+        ordering = ('change_date', 'name', )
+
 
 class Category(models.Model):
     name = models.CharField(max_length=100, verbose_name='Наименование')
     description = models.TextField(verbose_name='Описание')
+
+    def __str__(self):
+        return f"{self.name}"
+
+    class Meta:
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
+        ordering = ('name', )

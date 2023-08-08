@@ -16,3 +16,7 @@ def contacts(request):
         with open(ENTRY_PATH, "a", encoding="UTF-8") as file:
             print(f'You have new message from {name}({phone}): {message}', file=file)
     return render(request, 'catalog/contact_page.html')
+
+
+def catalog(request):
+    return render(request, 'catalog/catalog.html')
