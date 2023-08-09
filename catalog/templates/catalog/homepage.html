@@ -8,7 +8,7 @@
 </head>
 <body>
 <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
-    <h5 class="my-0 mr-md-auto font-weight-normal">Skystore</h5>
+    <h5 class="my-0 mr-md-auto font-weight-normal">Камни</h5>
     <nav class="ms-5">
         <a class="p-2 btn btn-outline-primary" href="/catalog/">Каталог</a>
         <a class="p-2 btn btn-outline-primary" href="/contacts/">Контакты</a>
@@ -16,8 +16,8 @@
 </div>
 
 <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-    <h1 class="display-4">Skystore</h1>
-    <p class="lead">Skystore - это отличный вариант хранения ваших плагинов и примеров кода, который вы бы хотели
+    <h1 class="display-4">Камни</h1>
+    <p class="lead">Покупайте наши отличные лучшие в мире камни на любой вкус
         продать</p>
 </div>
 
@@ -26,17 +26,17 @@
         <div class="col-3">
             <div class="card mb-4 box-shadow">
                 <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">Удобный сервис рассылок</h4>
+                    <h4 class="my-0 font-weight-normal">Удобный сервис доставки</h4>
                 </div>
                 <div class="card-body">
                     <h1 class="card-title pricing-card-title">$ 140</h1>
                     <ul class="list-unstyled mt-3 mb-4 text-start m-3">
                         <li>- Неограниченная лицензия</li>
                         <li>- Поддержка</li>
-                        <li>- Установка на сервер</li>
-                        <li>- Получение обновлений</li>
+                        <li>- Установка на стол</li>
+                        <li>- Осознание своей исключительности</li>
                     </ul>
-                    <button type="button" class="btn btn-lg btn-block btn-outline-primary">Купить</button>
+                    <button type="button" class="btn btn-lg btn-block btn-outline-primary">Я хотеть!</button>
                 </div>
             </div>
         </div>
@@ -51,10 +51,11 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <th>Название</th>
-                        <th>Категория</th>
-                        <th>Цена</th>
-                        <th>Дата создания</th>
+                        <th style="width: 15%;">Название</th>
+                        <th style="width: 15%;">Категория</th>
+                        <th style="width: 10%;">Цена</th>
+                        <th style="width: 20%;">Дата создания</th>
+                        <th style="width: 40%;">Описание</th>
                         <!-- Добавьте другие столбцы, если необходимо -->
                     </tr>
                     {% for product in latest_products %}
@@ -63,6 +64,7 @@
                         <td>{{ product.category }}</td>
                         <td>{{ product.price }}</td>
                         <td>{{ product.change_date }}</td>
+                        <td>{{ product.description }}</td>
                         <!-- Выведите другие атрибуты продукта, если это необходимо -->
                     </tr>
                     {% endfor %}
