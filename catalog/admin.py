@@ -1,5 +1,5 @@
 from django.contrib import admin
-from catalog.models import Category, Product
+from catalog.models import Category, Product, Contact
 from django.utils.html import format_html
 
 # Register your models here.
@@ -39,4 +39,10 @@ class ProductAdmin(admin.ModelAdmin):
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'description')
-    search_fields = ('name',)
+    search_fields = ('name', )
+
+
+@admin.register(Contact)
+class ContactAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'inn', 'address')
+    search_fields = ('inn', )

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Skystore</title>
-    <link href="/static/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+    <link href="/static/css/bootstrap.css" type="text/css" rel="stylesheet">
 </head>
 <body>
 <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
@@ -41,7 +41,35 @@
             </div>
         </div>
     </div>
-
+    <div class="container">
+        <div class="row text-center">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <caption class="text-center">Последние добавленные товары</caption>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th>Название</th>
+                        <th>Категория</th>
+                        <th>Цена</th>
+                        <th>Дата создания</th>
+                        <!-- Добавьте другие столбцы, если необходимо -->
+                    </tr>
+                    {% for product in latest_products %}
+                    <tr>
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.category }}</td>
+                        <td>{{ product.price }}</td>
+                        <td>{{ product.change_date }}</td>
+                        <!-- Выведите другие атрибуты продукта, если это необходимо -->
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+        </div>
+    </div>
     <footer class="pt-4 my-md-5 pt-md-5 border-top">
         <div class="row">
             <div class="col-12 col-md">
