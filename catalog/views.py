@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from config.settings import ENTRY_PATH
-from catalog.models import Product, Contact
+from catalog.models import Product, Contact, Category
 
 # Create your views here.
 COUNT_LATEST_PRODUCTS = 5
@@ -9,7 +9,8 @@ COUNT_LATEST_PRODUCTS = 5
 def home(request):
     # TODO: поиграть со стилями и разметкой
     context = {
-        'object_list': Product.objects.order_by('change_date')[:5]
+        'product_list': Product.objects.order_by('change_date')[:5],
+        'categories_list': Category.objects.all()
     }
     return render(request, 'catalog/index_2.html', context)
 
