@@ -43,6 +43,10 @@ body {
 .marketing .col-lg-4 {
   margin-bottom: 1.5rem;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* центрирует содержимое по горизонтали */
+  justify-content: flex-start;
 }
 .marketing h2 {
   font-weight: 400;
@@ -88,4 +92,14 @@ body {
   .featurette-heading {
     margin-top: 7rem;
   }
+}
+
+.btn-primary {
+    background-color: #24b6a4c9;
+    border-color: #ffffff;
+}
+.col-lg-4 .rounded-circle,
+.col-lg-4 h2,
+.col-lg-4 p:not(:last-child) { /* исключаем последний <p>, который содержит кнопку */
+    flex: 1;
 }

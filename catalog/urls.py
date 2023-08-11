@@ -3,7 +3,7 @@ from catalog.views import home, contacts, catalog
 
 
 urlpatterns = [
-    path('', home),
-    path('contacts/', contacts),
-    path('catalog/', catalog),
+    path('', home, name='home'),
+    path('contacts/', contacts, name='contacts'),
+    path('catalog/', catalog, name='catalog'),
 ]

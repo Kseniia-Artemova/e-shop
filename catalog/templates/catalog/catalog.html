@@ -1,18 +1,29 @@
 {% extends 'catalog/base.html' %}
 {% block content %}
-<div class="container">
-    <div class="pt-4 my-md-5 pt-md-5 border-top">
-        <div class="container">
-            <div class="row justify-content-start">
-                <div class="col-lg-8 col-md-4 col-sm-8">
-                    <div class="card mb-4 box-shadow">
-                        <div class="card-body">
-                            Камень
-                        </div>
-                    </div>
-                </div>
+
+<!-- Заголовок сверху -->
+<div class="d-flex justify-content-start mt-5 ml-5">
+    <h1>Наши питомцы</h1>
+</div>
+
+<!-- Карточки продуктов -->
+{% for product in product_list %}
+<div class="d-flex justify-content-start mt-4 ml-5">
+    <div class="card d-flex flex-row" style="width: 100rem; max-width: 100%;">
+        <img class="featurette-image img-fluid" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
+        <div>
+            <div class="card-body">
+                <h5 class="card-title">{{ product.name }}</h5>
+                <p class="card-text">{{ product.description }}</p>
             </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Цена: {{ product.price }} rub</li>
+                <li class="list-group-item"><span class="text-muted">Категория: {{ product.category }}</span></li>
+                <li class="list-group-item"><span class="text-muted">Дата создания: {{ product.creation_date }}</span></li>
+                <li class="list-group-item"><span class="text-muted">Дата изменения: {{ product.change_date }}</span></li>
+            </ul>
         </div>
     </div>
 </div>
-    {% endblock %}
+{% endfor %}
+{% endblock %}
