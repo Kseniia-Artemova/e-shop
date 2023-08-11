@@ -11,7 +11,7 @@ def home(request):
         'product_list': Product.objects.order_by('change_date')[:5],
         'category_list': Category.objects.all()
     }
-    return render(request, 'catalog/index_2.html', context)
+    return render(request, 'catalog/home.html', context)
 
 
 def contacts(request):

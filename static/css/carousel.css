@@ -103,3 +103,10 @@ body {
 .col-lg-4 p:not(:last-child) { /* исключаем последний <p>, который содержит кнопку */
     flex: 1;
 }
+
+.btn-outline-success {
+    color: #24b6a4;
+    background-color: transparent;
+    background-image: none;
+    border-color: #24b6a4;
+}
