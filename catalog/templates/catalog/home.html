@@ -64,7 +64,7 @@
                  height="140">
             <h2>{{ category.name }}</h2>
             <p>{{ category.description }}</p>
-            <p><a class="btn btn-secondary" href="#" role="button">Детали&raquo;</a></p>
+            <p><a class="btn btn-secondary" href="{% url 'catalog:category' category.pk %}" role="button">Детали&raquo;</a></p>
         </div><!-- /.col-lg-4 -->
         {% if forloop.counter == 3 %}
     </div> <!-- Closing the row after the third category -->

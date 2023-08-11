@@ -100,8 +100,14 @@ body {
 }
 .col-lg-4 .rounded-circle,
 .col-lg-4 h2,
-.col-lg-4 p:not(:last-child) { /* исключаем последний <p>, который содержит кнопку */
+.col-lg-4 p:not(:last-child) {
     flex: 1;
+}
+
+.btn-primary:hover {
+    background-color: #075f55;
+    color: white;
+    border-color: #ffffff;
 }
 
 .btn-outline-success {
@@ -109,4 +115,10 @@ body {
     background-color: transparent;
     background-image: none;
     border-color: #24b6a4;
+}
+
+.btn-outline-success:hover {
+    background-color: #075f55;
+    color: white;
+    border-color: #ffffff;
 }
