@@ -16,6 +16,7 @@ class ProductAdmin(admin.ModelAdmin):
     )
     list_filter = ('category', )
     search_fields = ('name', 'description')
+    fields = ['name', 'description', 'image', 'price', 'category']
 
     def toggle_description_button(self, obj):
         return format_html(
@@ -40,6 +41,7 @@ class ProductAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'description')
     search_fields = ('name', )
+    fields = ['name', 'image']
 
 
 @admin.register(Contact)
