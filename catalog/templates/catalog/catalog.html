@@ -1,13 +1,29 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
+{% extends 'catalog/base.html' %}
+{% block content %}
 
-</body>
-</html>doctype
+<!-- Заголовок сверху -->
+<div class="d-flex justify-content-start mt-5 ml-5">
+    <h1>Наши питомцы</h1>
+</div>
+
+<!-- Карточки продуктов -->
+{% for product in product_list %}
+<div class="d-flex justify-content-start mt-4 ml-5">
+    <div class="card d-flex flex-row" style="width: 100rem; max-width: 100%;">
+        <img class="featurette-image img-fluid" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
+        <div>
+            <div class="card-body">
+                <h5 class="card-title">{{ product.name }}</h5>
+                <p class="card-text">{{ product.description }}</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Цена: {{ product.price }} rub</li>
+                <li class="list-group-item"><span class="text-muted">Категория: {{ product.category }}</span></li>
+                <li class="list-group-item"><span class="text-muted">Дата создания: {{ product.creation_date }}</span></li>
+                <li class="list-group-item"><span class="text-muted">Дата изменения: {{ product.change_date }}</span></li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

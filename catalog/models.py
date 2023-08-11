@@ -24,6 +24,7 @@ class Product(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=100, verbose_name='Наименование')
     description = models.TextField(verbose_name='Описание')
+    image = models.ImageField(upload_to='categories/', null=True, blank=True, verbose_name='Изображение')
 
     def __str__(self):
         return f"{self.name}"
