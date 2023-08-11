@@ -1,0 +1,54 @@
+{% extends 'catalog/base.html' %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-start">
+        <div class="col-3">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Удобный сервис доставки</h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title pricing-card-title">$ 140</h1>
+                    <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                        <li>- Неограниченная лицензия</li>
+                        <li>- Поддержка</li>
+                        <li>- Установка на стол</li>
+                        <li>- Осознание своей исключительности</li>
+                    </ul>
+                    <button type="button" class="btn btn-lg btn-block btn-outline-primary">Я хотеть!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row text-center">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <caption class="text-center">Последние добавленные товары</caption>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th style="width: 15%;">Название</th>
+                    <th style="width: 15%;">Категория</th>
+                    <th style="width: 10%;">Цена</th>
+                    <th style="width: 20%;">Дата создания</th>
+                    <th style="width: 40%;">Описание</th>
+                    <!-- Добавьте другие столбцы, если необходимо -->
+                </tr>
+                {% for product in object_list %}
+                <tr>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.category }}</td>
+                    <td>{{ product.price }}</td>
+                    <td>{{ product.change_date }}</td>
+                    <td>{{ product.description }}</td>
+                    <!-- Выведите другие атрибуты продукта, если это необходимо -->
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

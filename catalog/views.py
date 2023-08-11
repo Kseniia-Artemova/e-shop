@@ -8,8 +8,10 @@ COUNT_LATEST_PRODUCTS = 5
 
 def home(request):
     # TODO: поиграть со стилями и разметкой
-    latest_products = Product.objects.order_by('change_date')[:5]
-    return render(request, 'catalog/homepage.html', {'latest_products': latest_products})
+    context = {
+        'object_list': Product.objects.order_by('change_date')[:5]
+    }
+    return render(request, 'catalog/index_2.html', context)
 
 
 def contacts(request):
@@ -21,9 +23,12 @@ def contacts(request):
         message = request.POST.get('message')
         with open(ENTRY_PATH, "a", encoding="UTF-8") as file:
             print(f'You have new message from {name}({phone}): {message}', file=file)
-    return render(request, 'catalog/contact_page.html', {'contact_data': contact_data})
+    return render(request, 'catalog/contacts.html', {'contact_data': contact_data})
 
 
 def catalog(request):
     # TODO: тут добавить нормальную страницу
-    return render(request, 'catalog/catalog.html')
+    context = {
+        'object_list': Product.objects.order_by('change_date')[:5]
+    }
+    return render(request, 'catalog/catalog.html', context)
