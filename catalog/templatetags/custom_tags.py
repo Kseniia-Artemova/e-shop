@@ -4,13 +4,14 @@ register = template.Library()
 
 
 @register.simple_tag
-def mediapath(string):
-    if string:
-        print(f'/media/{string}')
-        return f'/media/{string}'
+def mediapath(object):
+    if object.image and hasattr(object.image, 'url'):
+        return object.image.url
+    return f'/media/default.png'
 
 
 @register.filter
-def mediapath(string):
-    if string:
-        return f'/media/{string}'
+def mediapath(object):
+    if object.image and hasattr(object.image, 'url'):
+        return object.image.url
+    return f'/media/default.png'
