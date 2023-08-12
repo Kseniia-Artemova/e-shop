@@ -41,3 +41,28 @@ def category(request, pk):
         'title': category_item.name
     }
     return render(request, 'catalog/category.html', context)
+
+
+def create_product(request):
+    context = {
+        'category_list': Category.objects.order_by('pk'),
+    }
+    if request.method == "POST":
+        name = request.POST.get('name')
+        description = request.POST.get('description')
+        category = request.POST.get('category')
+        price = request.POST.get('price')
+        image = request.FILES.get('image', None)
+        print(image)
+        print(request.POST)
+        creation_product = {
+            'name': name,
+            'description': description,
+            'category': Category.objects.get(pk=category),
+            'price': price,
+        }
+        if image:
+            creation_product['image'] = image
+        if all(creation_product.values()):
+            Product.objects.create(**creation_product)
+    return render(request, 'catalog/create_product.html', context)

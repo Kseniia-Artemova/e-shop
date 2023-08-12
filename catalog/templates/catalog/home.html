@@ -9,7 +9,7 @@
     </ol>
     <div class="carousel-inner">
         <div class="carousel-item active">
-            <img class="first-slide" src="{% mediapath 'carousel/carousel_1.jpg' %}" alt="First slide">
+            <img class="first-slide" src="/media/carousel/carousel_1.jpg" alt="First slide">
             <div class="container">
                 <div class="carousel-caption">
                     <h1>Вы любите камни?</h1>
@@ -19,7 +19,7 @@
             </div>
         </div>
         <div class="carousel-item">
-            <img class="second-slide" src="{% mediapath 'carousel/carousel_2.jpg' %}" alt="Second slide">
+            <img class="second-slide" src="/media/carousel/carousel_2.jpg" alt="Second slide">
             <div class="container">
                 <div class="carousel-caption">
                     <h1>Мы заставим вас полюбить камни.</h1>
@@ -30,7 +30,7 @@
             </div>
         </div>
         <div class="carousel-item">
-            <img class="third-slide" src="{% mediapath 'carousel/carousel_3.jpg' %}" alt="Third slide">
+            <img class="third-slide" src="/media/carousel/carousel_3.jpg" alt="Third slide">
             <div class="container">
                 <div class="carousel-caption">
                     <h1>Посмотрите на них!</h1>
@@ -60,7 +60,7 @@
     <div class="row">
         {% for category in category_list %}
         <div class="col-lg-4">
-            <img class="rounded-circle" src="{{ category.image|mediapath }}" alt="Generic placeholder image" width="140"
+            <img class="rounded-circle" src="{{ category|mediapath }}" alt="Generic placeholder image" width="140"
                  height="140">
             <h2>{{ category.name }}</h2>
             <p>{{ category.description }}</p>
