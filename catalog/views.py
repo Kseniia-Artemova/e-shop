@@ -8,7 +8,7 @@ COUNT_LATEST_PRODUCTS = 5
 
 def home(request):
     context = {
-        'product_list': Product.objects.order_by('change_date')[:5],
+        'product_list': Product.objects.order_by('-change_date')[:5],
         'category_list': Category.objects.all()
     }
     return render(request, 'catalog/home.html', context)
