@@ -1,11 +1,14 @@
 {% load custom_tags %}
-<div class="d-flex justify-content-start mt-4 ml-5">
-    <div class="card d-flex flex-row" style="width: 100rem; max-width: 100%;">
+<div class="col-lg-6 col-md-6 col-sm-12 mb-4">
+    <div class="card-container d-flex flex-row">
         <img class="pet-image img-fluid" src="{% mediapath product %}" alt="Generic placeholder image">
-        <div>
+        <div class="card-content">
             <div class="card-body">
                 <h5 class="card-title">{{ product.name }}</h5>
                 <p class="card-text">{{ product.description }}</p>
+                <div class="button-center">
+                    <a href="{% url 'catalog:product' product.pk %}"  class="btn btn-primary btn-centered">Осмотреть</a>
+                </div>
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">Цена: {{ product.price }} rub</li>

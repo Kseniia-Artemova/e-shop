@@ -82,6 +82,9 @@
         <div class="col-md-7">
             <h2 class="featurette-heading">{{ product.name }}</h2>
             <p class="lead">{{ product.description|truncatechars:1000 }}</p>
+            <div class="button-center">
+                <a href="{% url 'catalog:product' product.pk %}" class="btn btn-primary btn-centered btn-lg">Осмотреть</a>
+            </div>
         </div>
         <div class="col-md-5">
             <img class="featurette-image img-fluid" src="{% mediapath product %}" alt="Generic placeholder image">
@@ -89,14 +92,17 @@
         {% else %}
         <div class="col-md-7 order-md-2">
             <h2 class="featurette-heading">{{ product.name }}</h2>
-            <p class="lead">{{ product.description }}</p>
+            <p class="lead">{{ product.description|truncatechars:1000 }}</p>
+            <div class="button-center text-end">
+                <a href="{% url 'catalog:product' product.pk %}" class="btn btn-primary btn-centered btn-lg">Осмотреть</a>
+            </div>
         </div>
         <div class="col-md-5 order-md-1">
             <img class="featurette-image img-fluid" src="{% mediapath product %}" alt="Generic placeholder image">
         </div>
         {% endif %}
     </div>
-{% endfor %}
+    {% endfor %}
 
 <hr class="featurette-divider">
         <!-- /END THE FEATURETTES -->

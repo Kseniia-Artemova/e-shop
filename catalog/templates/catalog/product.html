@@ -1,0 +1,25 @@
+{% extends 'catalog/base.html' %}
+{% load custom_tags %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+
+        <div class="col-lg-6">
+            <img src="{% mediapath product %}" class="img-fluid" alt="Изображение продукта">
+        </div>
+
+
+        <div class="col-lg-6">
+            <h2 class="display-4">{{ product.name }}</h2>
+            <p class="lead">{{ product.description }}</p>
+
+            <p class="h4">Цена: {{ product.price }} rub</p>
+            <p class="h4">Категория: {{ product.category }}</p>
+            <p class="h4">Дата создания: {{ product.creation_date }}</p>
+            <p class="h4">Дата изменения: {{ product.change_date }}</p>
+        </div>
+    </div>
+</div>
+<br>
+<br>
+{% endblock %}

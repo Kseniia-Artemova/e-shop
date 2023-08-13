@@ -66,3 +66,10 @@ def create_product(request):
         if all(creation_product.values()):
             Product.objects.create(**creation_product)
     return render(request, 'catalog/create_product.html', context)
+
+
+def product(request, pk):
+    context = {
+        'product': Product.objects.get(pk=pk),
+    }
+    return render(request, 'catalog/product.html', context)
