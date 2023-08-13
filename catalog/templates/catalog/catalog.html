@@ -1,5 +1,4 @@
 {% extends 'catalog/base.html' %}
-{% load custom_tags %}
 {% block content %}
 
 <!-- Заголовок сверху -->
@@ -9,23 +8,7 @@
 
 <!-- Карточки продуктов -->
 {% for product in product_list %}
-<div class="d-flex justify-content-start mt-4 ml-5">
-    <div class="card d-flex flex-row" style="width: 100rem; max-width: 100%;">
-        <img class="pet-image img-fluid" src="{% mediapath product %}" alt="Generic placeholder image">
-        <div>
-            <div class="card-body">
-                <h5 class="card-title">{{ product.name }}</h5>
-                <p class="card-text">{{ product.description }}</p>
-            </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">Цена: {{ product.price }} rub</li>
-                <li class="list-group-item"><span class="text-muted">Категория: {{ product.category }}</span></li>
-                <li class="list-group-item"><span class="text-muted">Дата создания: {{ product.creation_date }}</span></li>
-                <li class="list-group-item"><span class="text-muted">Дата изменения: {{ product.change_date }}</span></li>
-            </ul>
-        </div>
-    </div>
-</div>
+{% include 'catalog/includes/product_card.html' %}
 {% endfor %}
 <br>
 <br>
