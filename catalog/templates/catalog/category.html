@@ -11,26 +11,10 @@
 <br>
 <br>
     <!-- Карточки продуктов -->
-    <div class="row">
-        {% for product in product_list %}
-        <div class="col-lg-6 col-md-6 col-sm-12 mb-4">
-            <div class="card d-flex flex-row" style="max-width: 600px;">
-                <img class="pet-image img-fluid" src="{% mediapath product %}" alt="Generic placeholder image">
-                <div class="card-content">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ product.name }}</h5>
-                        <p class="card-text">{{ product.description }}</p>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Цена: {{ product.price }} rub</li>
-                        <li class="list-group-item"><span class="text-muted">Категория: {{ product.category }}</span></li>
-                        <li class="list-group-item"><span class="text-muted">Дата создания: {{ product.creation_date }}</span></li>
-                        <li class="list-group-item"><span class="text-muted">Дата изменения: {{ product.change_date }}</span></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
+<div class="row">
+{% for product in product_list %}
+{% include 'catalog/includes/product_card.html' %}
+{% endfor %}
+</div>
 </div>
 {% endblock %}
