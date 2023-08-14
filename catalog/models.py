@@ -4,6 +4,9 @@ from django.db import models
 
 
 class Product(models.Model):
+    """
+    Модель для описания товара
+    """
     name = models.CharField(max_length=100, verbose_name='Наименование')
     description = models.TextField(verbose_name='Описание')
     image = models.ImageField(upload_to='products/', null=True, blank=True, verbose_name='Изображение')
@@ -22,6 +25,9 @@ class Product(models.Model):
 
 
 class Category(models.Model):
+    """
+    Модель для описания категории товара
+    """
     name = models.CharField(max_length=100, verbose_name='Наименование')
     description = models.TextField(verbose_name='Описание')
     image = models.ImageField(upload_to='categories/', null=True, blank=True, verbose_name='Изображение')
@@ -36,6 +42,9 @@ class Category(models.Model):
 
 
 class Contact(models.Model):
+    """
+    Модель для описания контактных данных
+    """
     name = models.CharField(max_length=100, verbose_name='Страна')
     inn = models.CharField(max_length=30, verbose_name='ИНН')
     address = models.CharField(max_length=500, verbose_name='Адрес')
