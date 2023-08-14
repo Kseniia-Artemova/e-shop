@@ -10,11 +10,16 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import dotenv
 from pathlib import Path
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Загрузить параметры базы данных из переменных окружения
+dotenv.load_dotenv()
+USER_DB = os.getenv('USER_DB')
 PASSWORD_DB = os.getenv('PASSWORD_DB')
 
 
@@ -81,7 +86,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'catalog',
-        'USER': 'postgres',
+        'USER': USER_DB,
         'PASSWORD': PASSWORD_DB
     }
 }
