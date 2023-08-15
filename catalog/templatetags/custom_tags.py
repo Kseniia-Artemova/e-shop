@@ -10,6 +10,8 @@ def mediapath(object: models.Model) -> str:
     """Шаблонный тег для построения пути к медиафайлам приложения"""
 
     if object.image and hasattr(object.image, 'url'):
+        print(object.image.url)
+        print(f'{settings.MEDIA_URL}default.png')
         return object.image.url
     return f'{settings.MEDIA_URL}default.png'
 
