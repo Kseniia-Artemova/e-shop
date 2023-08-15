@@ -196,3 +196,68 @@ body {
 footer {
     padding: 0px 50px;
 }
+
+textarea {
+    resize: vertical;
+}
+
+.btn-danger {
+    background-color: #dc354bd6;
+    border-color: #f1023d;
+}
+
+.image-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+}
+
+.example-image {
+  width: 300px;
+}
+
+.btn {
+  margin-left: 10px;
+}
+
+.center-content {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.confirm-button {
+    width: 150px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 5px;
+    font-size: 16px;
+    padding: 12px 20px;
+}
+
+.confirm-danger {
+    background-color: #dc354bd6;
+    color: #ffffff;
+    border-color: #f1023d;
+}
+
+.confirm-danger:hover {
+    background-color: #931322d6;
+    color: #ffffff;
+    border-color: #cd0d3c;
+}
+
+.confirm-primary {
+    background-color: #24b6a4c9;
+    color: #ffffff;
+    border-color: #24b6a4c9;
+}
+
+.confirm-primary:hover {
+    background-color: #075f55;
+    color: white;
+    border-color: #24b6a4c9;
+}

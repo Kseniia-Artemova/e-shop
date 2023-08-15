@@ -8,6 +8,8 @@
                 <p class="card-text">{{ product.description }}</p>
                 <div class="button-center">
                     <a href="{% url 'catalog:product' product.pk %}"  class="btn btn-primary btn-centered">Осмотреть</a>
+                    <a href="{% url 'catalog:update' product.pk %}"  class="btn btn-primary btn-centered">Изменить</a>
+                    <a href="{% url 'catalog:delete' product.pk %}"  class="btn btn-primary btn-centered">Отпустить</a>
                 </div>
             </div>
             <ul class="list-group list-group-flush">

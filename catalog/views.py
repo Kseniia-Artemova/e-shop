@@ -1,13 +1,14 @@
 import django.core.handlers.wsgi
-from django.db.models import QuerySet
-from django.shortcuts import render
-from django.urls import reverse_lazy
-from django.views.generic import TemplateView, ListView, CreateView, DetailView
-
-from config.settings import ENTRY_PATH
-from catalog.models import Product, Contact, Category
 from django.http.response import HttpResponse
 from django.core.handlers.wsgi import WSGIRequest
+from django.shortcuts import render
+
+from django.db.models import QuerySet
+from django.urls import reverse_lazy
+from django.views.generic import TemplateView, ListView, CreateView, DetailView, UpdateView, DeleteView
+from config.settings import ENTRY_PATH
+from catalog.models import Product, Contact, Category, BlogEntry
+
 
 # Create your views here.
 COUNT_LATEST_PRODUCTS = 5
@@ -30,7 +31,7 @@ class HomeView(TemplateView):
     """
     template_name = 'catalog/home.html'
     extra_context = {
-        'product_list': Product.objects.order_by('-change_date')[:5],
+        'product_list': Product.objects.order_by('-change_date')[:COUNT_LATEST_PRODUCTS],
         'category_list': Category.objects.all()
     }
 
@@ -160,10 +161,11 @@ class ProductCreateView(CreateView):
     если все обязательные поля заполнены
     """
     model = Product
-    template_name = 'catalog/create_product.html'
+    template_name = 'catalog/product_form.html'
     fields = ('name', 'description', 'category', 'price', 'image')
     extra_context = {
-        'category_list': Category.objects.order_by('pk')
+        'category_list': Category.objects.order_by('pk'),
+        'action': 'Создать'
     }
     success_url = reverse_lazy('catalog:catalog')
 
@@ -184,3 +186,38 @@ class ProductDetailView(DetailView):
     """
     model = Product
     template_name = 'catalog/product.html'
+
+
+class ProductUpdateView(UpdateView):
+    """
+    Класс-контроллер для изменения карточки товара
+    """
+    model = Product
+    template_name = 'catalog/product_form.html'
+    fields = ('name', 'description', 'category', 'price', 'image')
+    success_url = reverse_lazy('catalog:catalog')
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        extra_context = {
+            'category_list': Category.objects.order_by('pk'),
+            'action': 'Изменить',
+            'object': Product.objects.get(pk=self.kwargs.get('pk'))
+        }
+        return context_data | extra_context
+
+
+class ProductDeleteView(DeleteView):
+    """
+    Класс-контроллер для удаления товара
+    """
+    model = Product
+    template_name = 'catalog/delete_form.html'
+    success_url = reverse_lazy('catalog:catalog')
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        extra_context = {
+            'object': Product.objects.get(pk=self.kwargs.get('pk'))
+        }
+        return context_data | extra_context
