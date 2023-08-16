@@ -277,3 +277,15 @@ textarea {
 .btn-centered {
     margin-top: 5px;
 }
+
+.big-buttons {
+    font-size: 1.2rem;
+    padding: 10px 20px;
+    margin: 45px 13px 5px 19px
+}
+
+.centered-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
