@@ -11,14 +11,12 @@
             <p class="card-text">{{ object.content }}</p>
 
             {% if object.is_published %}
-            <a href="#" class="btn confirm-primary">Вернуться к записям</a>
-            <a href="{% url 'catalog:publish' object.pk %}" class="btn confirm-primary">Разопубликовать</a>
+            <a href="{% url 'catalog:blog' %}" class="btn confirm-primary">Вернуться к записям</a>
 
             {% else %}
-            <a href="#" class="btn confirm-primary">Вернуться к записям</a>
-            <a href="{% url 'catalog:publish' object.pk %}" class="btn confirm-primary">Опубликовать</a>
-            <a href="#" class="btn confirm-primary">Изменить</a>
-            <a href="#" class="btn confirm-danger">Удалить</a>
+            <a href="{% url 'catalog:unpublished_entries' %}" class="btn confirm-primary">Вернуться к записям</a>
+            <a href="{% url 'catalog:update_entry' object.pk %}" class="btn confirm-primary">Изменить</a>
+            <a href="{% url 'catalog:delete_entry' object.pk %}" class="btn confirm-danger">Удалить</a>
 
             {% endif %}
 

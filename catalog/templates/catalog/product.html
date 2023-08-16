@@ -17,9 +17,9 @@
     </div>
     <div class="row centered-buttons"> <!-- Применяем класс для выравнивания по центру -->
         <div class="button-center">
-            <a href="{% url 'catalog:update' product.pk %}"  class="btn btn-primary btn-centered big-buttons">Изменить</a>
+            <a href="{% url 'catalog:update_product' product.pk %}"  class="btn btn-primary btn-centered big-buttons">Изменить</a>
             <a href="{% url 'catalog:catalog' %}"  class="btn btn-primary confirm-update big-buttons">Вернуться к остальным</a>
-            <a href="{% url 'catalog:delete' product.pk %}"  class="btn btn-primary confirm-danger big-buttons">Отпустить</a>
+            <a href="{% url 'catalog:delete_product' product.pk %}"  class="btn btn-primary confirm-danger big-buttons">Отпустить</a>
         </div>
     </div>
 </div>

@@ -236,6 +236,7 @@ class BlogEntryListView(ListView):
         object_list = BlogEntry.objects.filter(is_published=True)
         object_list = object_list.order_by('-creation_date')
         context_data['object_list'] = object_list
+        context_data['button_text'] = 'Разопубликовать'
         return context_data
 
 
@@ -243,7 +244,10 @@ class BlogEntryCreateView(CreateView):
     model = BlogEntry
     fields = ('title', 'content', 'image')
     success_url = reverse_lazy('catalog:blog')
-    template_name = 'catalog/create_blog_entry.html'
+    template_name = 'catalog/form_blog_entry.html'
+    extra_context = {
+        'action': 'Создать',
+    }
 
     def form_valid(self, form):
         if form.is_valid():
@@ -265,6 +269,7 @@ class BlogEntryUnpublishedListView(BlogEntryListView):
         object_list = BlogEntry.objects.filter(is_published=False)
         object_list = object_list.order_by('-creation_date')
         context_data['object_list'] = object_list
+        context_data['button_text'] = 'Опубликовать'
         return context_data
 
 
@@ -275,6 +280,13 @@ class BlogEntryDetailView(DetailView):
     model = BlogEntry
     template_name = 'catalog/current_blog_entry.html'
 
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.object.is_published:
+            self.object.number_views += 1
+            self.object.save()
+        return self.object
+
 
 def publish_blog_entry(request, pk):
     """
@@ -282,7 +294,42 @@ def publish_blog_entry(request, pk):
     (is_published: True/False)
     """
     blog_entry = get_object_or_404(BlogEntry, pk=pk)
+    redirect_url = 'catalog:blog' if blog_entry.is_published else 'catalog:unpublished_entries'
     blog_entry.is_published = not blog_entry.is_published
     blog_entry.save()
 
-    return redirect('catalog:blog')
+    return redirect(redirect_url)
+
+
+class BlogEntryUpdateView(UpdateView):
+    """
+    Класс-контроллер для изменения записи блога
+    """
+    model = BlogEntry
+    fields = ('title', 'content', 'image')
+    success_url = reverse_lazy('catalog:unpublished_entries')
+    template_name = 'catalog/form_blog_entry.html'
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        extra_context = {
+            'action': 'Сохранить',
+            'object': BlogEntry.objects.get(pk=self.kwargs.get('pk'))
+        }
+        return context_data | extra_context
+
+
+class BlogEntryDeleteView(DeleteView):
+    """
+    Класс-контроллер для удаления записи блога
+    """
+    model = BlogEntry
+    template_name = 'catalog/delete_entry.html'
+    success_url = reverse_lazy('catalog:unpublished_entries')
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        extra_context = {
+            'object': BlogEntry.objects.get(pk=self.kwargs.get('pk'))
+        }
+        return context_data | extra_context
