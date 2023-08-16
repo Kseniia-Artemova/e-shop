@@ -15,7 +15,7 @@ class Product(models.Model):
                             verbose_name='Описание'
                         )
     image = models.ImageField(
-                            default='default.png',
+                            default='products/default.png',
                             upload_to='products/',
                             null=True,
                             blank=True,
@@ -108,7 +108,7 @@ class BlogEntry(models.Model):
                         verbose_name='Содержимое'
                     )
     image = models.ImageField(
-                        default='default.png',
+                        default='blog/default.jpg',
                         upload_to='blog/',
                         null=True,
                         blank=True,
@@ -120,7 +120,7 @@ class BlogEntry(models.Model):
                     )
     is_published = models.BooleanField(
                         default=False,
-                        verbose_name='Статус'
+                        verbose_name='Опубликовано'
                     )
     number_views = models.PositiveIntegerField(
                         default=0,

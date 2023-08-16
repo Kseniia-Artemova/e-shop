@@ -221,3 +221,22 @@ class ProductDeleteView(DeleteView):
             'object': Product.objects.get(pk=self.kwargs.get('pk'))
         }
         return context_data | extra_context
+
+
+class BlogEntryListView(ListView):
+    """
+    Класс-контроллер для отображения страницы со списком публикаций блога
+    """
+    model = BlogEntry
+    template_name = 'catalog/blog.html'
+    extra_context = {
+        'object_list': BlogEntry.objects.order_by('-creation_date'),
+    }
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        object_list = BlogEntry.objects.filter(is_published=True)
+        object_list = object_list.order_by('-creation_date')
+        context_data['object_list'] = object_list
+        return context_data
+
