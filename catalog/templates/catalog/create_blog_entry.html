@@ -1,0 +1,37 @@
+{% extends 'catalog/base.html' %}
+{% load custom_tags %}
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form method="post" action="" class="form-floating" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label for="title" class="form-label">Заголовок публикации</label>
+                    <input type="text" class="form-control" id="title" name="title" aria-describedby="title">
+                </div>
+
+                <div class="mb-3">
+                    <label for="content" class="form-label">Текст публикации</label>
+                    <textarea class="form-control text-muted" id="content" name="content" rows="3"
+                              aria-describedby="content">Поделитесь новостью!</textarea>
+                </div>
+
+                <div class="mb-3">
+                  <label for="image" class="form-label">Загрузите иллюстрацию</label>
+                  <input class="form-control file-input" type="file" id="image" name="image" onchange="displayImage(this)">
+                </div>
+                <div class="mb-3 image-container">
+                  <img id="uploadedImage" class="example-image" src="/media/blog/default.jpg" style="display: block;" />
+                  <button type="button" class="btn btn-danger" id="removeButton" onclick="removeImage()">Удалить изображение</button>
+                </div>
+
+                <button type="submit" class="btn btn-primary mt-3">Создать</button>
+                <a href="{% url 'catalog:blog' %}" class="btn confirm-update mt-3">Передумать</a>
+
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'catalog/base.html' %}
+{% load custom_tags %}
+{% block content %}
+<div class="d-flex justify-content-center flex-column align-items-center">
+    <div class="card" style="width: 50rem; position: relative;">
+        <img src="{% mediapath object %}" class="card-img-top" alt="...">
+        <div class="small-text text-muted text-right mb-13">{{ object.creation_date }}</div>
+        <div class="card-body">
+            <h5 class="card-title">{{ object.title }}</h5>
+            <p class="card-title">slug: {{ object.slug }}</p>
+            <p class="card-text">{{ object.content }}</p>
+
+            {% if object.is_published %}
+            <a href="#" class="btn confirm-primary">Вернуться к записям</a>
+            <a href="{% url 'catalog:publish' object.pk %}" class="btn confirm-primary">Разопубликовать</a>
+
+            {% else %}
+            <a href="#" class="btn confirm-primary">Вернуться к записям</a>
+            <a href="{% url 'catalog:publish' object.pk %}" class="btn confirm-primary">Опубликовать</a>
+            <a href="#" class="btn confirm-primary">Изменить</a>
+            <a href="#" class="btn confirm-danger">Удалить</a>
+
+            {% endif %}
+
+        </div>
+        <div class="card-footer-text">
+            Просмотров {{ object.number_views }}
+        </div>
+    </div>
+</div>
+{% endblock %}

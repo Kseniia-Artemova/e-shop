@@ -1,13 +1,14 @@
 import django.core.handlers.wsgi
 from django.http.response import HttpResponse
 from django.core.handlers.wsgi import WSGIRequest
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 
 from django.db.models import QuerySet
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, CreateView, DetailView, UpdateView, DeleteView
 from config.settings import ENTRY_PATH
 from catalog.models import Product, Contact, Category, BlogEntry
+from pytils.translit import slugify
 
 
 # Create your views here.
@@ -229,9 +230,6 @@ class BlogEntryListView(ListView):
     """
     model = BlogEntry
     template_name = 'catalog/blog.html'
-    extra_context = {
-        'object_list': BlogEntry.objects.order_by('-creation_date'),
-    }
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -240,3 +238,51 @@ class BlogEntryListView(ListView):
         context_data['object_list'] = object_list
         return context_data
 
+
+class BlogEntryCreateView(CreateView):
+    model = BlogEntry
+    fields = ('title', 'content', 'image')
+    success_url = reverse_lazy('catalog:blog')
+    template_name = 'catalog/create_blog_entry.html'
+
+    def form_valid(self, form):
+        if form.is_valid():
+            new_entry = form.save()
+            new_entry.slug = slugify(new_entry.title)
+            new_entry.save()
+        return super().form_valid(form)
+
+
+class BlogEntryUnpublishedListView(BlogEntryListView):
+    """
+    Класс-контроллер для отображения страницы со списком неопубликованных записей блога
+    """
+    model = BlogEntry
+    template_name = 'catalog/unpublished_entries.html'
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        object_list = BlogEntry.objects.filter(is_published=False)
+        object_list = object_list.order_by('-creation_date')
+        context_data['object_list'] = object_list
+        return context_data
+
+
+class BlogEntryDetailView(DetailView):
+    """
+    Класс-контроллер для отображения страницы с конкретной записью блога
+    """
+    model = BlogEntry
+    template_name = 'catalog/current_blog_entry.html'
+
+
+def publish_blog_entry(request, pk):
+    """
+    Контроллер для изменения статуса публикации
+    (is_published: True/False)
+    """
+    blog_entry = get_object_or_404(BlogEntry, pk=pk)
+    blog_entry.is_published = not blog_entry.is_published
+    blog_entry.save()
+
+    return redirect('catalog:blog')

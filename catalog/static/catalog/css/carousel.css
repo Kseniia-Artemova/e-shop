@@ -195,6 +195,7 @@ body {
 }
 
 footer {
+    margin-top: 30px;
     padding: 0px 50px;
 }
 
@@ -315,4 +316,18 @@ textarea {
 
 .text-muted {
     color: #aaa!important;
+}
+
+.btn-spacing {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 30px;
+    margin-top: 30px;
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.btn-spacing:hover {
+    background-color: #5b636a;
+    border-color: #3d4348;
 }

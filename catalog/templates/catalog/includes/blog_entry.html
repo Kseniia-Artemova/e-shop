@@ -5,7 +5,7 @@
     <div class="card-body">
         <h5 class="card-title">{{ object.title }}</h5>
         <p class="card-text">{{ object.content }}</p>
-        <a href="#" class="btn btn-primary">К записи</a>
+        <a href="{% url 'catalog:blog_entry' object.pk %}" class="btn btn-primary">К записи</a>
     </div>
     <div class="card-footer-text">
         Просмотров {{ object.number_views }}
