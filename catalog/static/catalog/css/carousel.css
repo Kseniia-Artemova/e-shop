@@ -96,7 +96,7 @@ body {
 
 .btn-primary {
     background-color: #24b6a4c9;
-    border-color: #ffffff;
+    border-color: #58b9a9;
 }
 .col-lg-4 .rounded-circle,
 .col-lg-4 h2,
@@ -105,9 +105,9 @@ body {
 }
 
 .btn-primary:hover {
-    background-color: #075f55;
+    background-color: #2c6e66;
     color: white;
-    border-color: #ffffff;
+    border-color: #23554f;
 }
 
 .btn-outline-success {
@@ -126,7 +126,8 @@ body {
 .pet-image {
     width: 30%;
     height: auto;
-    margin-right: 20px;
+    margin-left: 10px;
+    margin-top: 10px;
 }
 
 .col-md-5 {
@@ -216,10 +217,6 @@ textarea {
   width: 300px;
 }
 
-.btn {
-  margin-left: 10px;
-}
-
 .center-content {
     height: 100vh;
     display: flex;
@@ -233,15 +230,16 @@ textarea {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 5px;
     font-size: 16px;
     padding: 12px 20px;
+    margin: 0 5px
 }
 
 .confirm-danger {
     background-color: #dc354bd6;
     color: #ffffff;
     border-color: #f1023d;
+    margin-top: 5px;
 }
 
 .confirm-danger:hover {
@@ -253,11 +251,29 @@ textarea {
 .confirm-primary {
     background-color: #24b6a4c9;
     color: #ffffff;
-    border-color: #24b6a4c9;
+    border-color: #1f9586;
+    margin-top: 5px;
 }
 
 .confirm-primary:hover {
     background-color: #075f55;
     color: white;
-    border-color: #24b6a4c9;
+    border-color: #1f9586;
+}
+
+.confirm-update {
+    background-color: #43a095;
+    color: #ffffff;
+    border-color: #1d9586;
+    margin-top: 5px;
+}
+
+.confirm-update:hover {
+    background-color: #2c6e66;
+    color: #ffffff;
+    border-color: #23554f;
+}
+
+.btn-centered {
+    margin-top: 5px;
 }
