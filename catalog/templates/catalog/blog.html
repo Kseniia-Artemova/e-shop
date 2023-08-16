@@ -1,0 +1,15 @@
+{% extends 'catalog/base.html' %}
+{% load custom_tags %}
+{% block content %}
+
+<div class="d-flex justify-content-center flex-column align-items-center">
+    <div class="row d-flex justify-content-between">
+    <a href="{% url 'catalog:new_entry' %}" class="btn confirm-update btn-spacing"> Создать запись >> </a>
+    <a href="{% url 'catalog:unpublished_entries' %}" class="btn confirm-update btn-spacing"> Неопубликованные >> </a>
+    </div>
+    {% for object in object_list %}
+    {% include 'catalog/includes/blog_entry.html' %}
+    {% endfor %}
+</div>
+
+{% endblock %}
