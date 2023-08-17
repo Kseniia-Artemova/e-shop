@@ -199,7 +199,7 @@ class ProductUpdateView(UpdateView):
     fields = ('name', 'description', 'category', 'price', 'image')
     success_url = reverse_lazy('catalog:catalog')
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict:
         context_data = super().get_context_data(**kwargs)
         extra_context = {
             'category_list': Category.objects.order_by('pk'),
@@ -217,7 +217,7 @@ class ProductDeleteView(DeleteView):
     template_name = 'catalog/delete_form.html'
     success_url = reverse_lazy('catalog:catalog')
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict:
         context_data = super().get_context_data(**kwargs)
         extra_context = {
             'object': Product.objects.get(pk=self.kwargs.get('pk'))
@@ -232,7 +232,7 @@ class BlogEntryListView(ListView):
     model = BlogEntry
     template_name = 'catalog/blog.html'
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict:
         context_data = super().get_context_data(**kwargs)
         object_list = BlogEntry.objects.filter(is_published=True)
         object_list = object_list.order_by('-creation_date')
@@ -242,6 +242,9 @@ class BlogEntryListView(ListView):
 
 
 class BlogEntryCreateView(CreateView):
+    """
+    Класс-контроллер для отображения формы создания новой публикации блога
+    """
     model = BlogEntry
     fields = ('title', 'content', 'image')
     success_url = reverse_lazy('catalog:blog')
@@ -265,7 +268,7 @@ class BlogEntryUnpublishedListView(BlogEntryListView):
     model = BlogEntry
     template_name = 'catalog/unpublished_entries.html'
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs) -> dict:
         context_data = super().get_context_data(**kwargs)
         object_list = BlogEntry.objects.filter(is_published=False)
         object_list = object_list.order_by('-creation_date')
@@ -281,7 +284,7 @@ class BlogEntryDetailView(DetailView):
     model = BlogEntry
     template_name = 'catalog/current_blog_entry.html'
 
-    def get_object(self, queryset=None):
+    def get_object(self, queryset=None) -> QuerySet:
         self.object = super().get_object(queryset)
         if self.object.is_published:
             self.object.number_views += 1
