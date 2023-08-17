@@ -8,7 +8,7 @@ from django.utils.html import format_html
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     """
-    Отображение товаров
+    Отображение товара
     """
     list_display = (
         'id',
@@ -43,7 +43,7 @@ class ProductAdmin(admin.ModelAdmin):
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     """
-    Отображение категорий
+    Отображение категории
     """
     list_display = ('id', 'name', 'description')
     search_fields = ('name', )
@@ -62,7 +62,7 @@ class ContactAdmin(admin.ModelAdmin):
 @admin.register(BlogEntry)
 class BlogEntryAdmin(admin.ModelAdmin):
     """
-    Отображение записей блога
+    Отображение записи блога
     """
     list_display = ('pk', 'title', 'slug', 'content', 'image', 'creation_date', 'is_published', 'number_views')
     search_fields = ('title', 'content')
