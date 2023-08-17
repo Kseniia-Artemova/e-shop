@@ -286,7 +286,7 @@ class BlogEntryDetailView(DetailView):
         if self.object.is_published:
             self.object.number_views += 1
             self.object.save()
-        if self.object.number_views == 10:
+        if self.object.number_views == 100:
             send_congratulatory_email(self.object)
         return self.object
 
