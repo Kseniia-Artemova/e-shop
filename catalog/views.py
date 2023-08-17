@@ -1,8 +1,9 @@
 import django.core.handlers.wsgi
 from django.http.response import HttpResponse
 from django.core.handlers.wsgi import WSGIRequest
-from django.shortcuts import render, redirect, get_object_or_404
 
+from django.shortcuts import render, redirect, get_object_or_404
+from catalog.services import send_congratulatory_email
 from django.db.models import QuerySet
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, CreateView, DetailView, UpdateView, DeleteView
@@ -285,6 +286,8 @@ class BlogEntryDetailView(DetailView):
         if self.object.is_published:
             self.object.number_views += 1
             self.object.save()
+        if self.object.number_views == 100:
+            send_congratulatory_email(self.object)
         return self.object
 
 
