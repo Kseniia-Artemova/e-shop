@@ -1,5 +1,5 @@
 {% extends 'catalog/base.html' %}
-{% load custom_tags %}
+{% load catalog_custom_tags %}
 {% block content %}
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
@@ -25,7 +25,7 @@
                     <h1>Мы заставим вас полюбить камни.</h1>
                     <p>Потому что более верного и послужного питомца сложно отыскать! Вы останетесь довольны!
                        Только камень может заполнить пустоту в вашей душе!</p>
-                    <p><a class="btn btn-lg btn-primary" href="{% url 'catalog:blog' %}" role="button">Узнать слишком много</a></p>
+                    <p><a class="btn btn-lg btn-primary" href="{% url 'blog:blog' %}" role="button">Узнать слишком много</a></p>
                 </div>
             </div>
         </div>

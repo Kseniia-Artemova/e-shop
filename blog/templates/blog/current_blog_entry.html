@@ -1,5 +1,5 @@
 {% extends 'catalog/base.html' %}
-{% load custom_tags %}
+{% load blog_custom_tags %}
 {% block content %}
 <div class="d-flex justify-content-center flex-column align-items-center">
     <div class="card" style="width: 50rem; position: relative;">
@@ -11,12 +11,12 @@
             <p class="card-text">{{ object.content }}</p>
 
             {% if object.is_published %}
-            <a href="{% url 'catalog:blog' %}" class="btn confirm-primary">Вернуться к записям</a>
+            <a href="{% url 'blog:blog' %}" class="btn confirm-primary">Вернуться к записям</a>
 
             {% else %}
-            <a href="{% url 'catalog:unpublished_entries' %}" class="btn confirm-primary">Вернуться к записям</a>
-            <a href="{% url 'catalog:update_entry' object.pk %}" class="btn confirm-primary">Изменить</a>
-            <a href="{% url 'catalog:delete_entry' object.pk %}" class="btn confirm-danger">Удалить</a>
+            <a href="{% url 'blog:unpublished_entries' %}" class="btn confirm-primary">Вернуться к записям</a>
+            <a href="{% url 'blog:update_entry' object.pk %}" class="btn confirm-primary">Изменить</a>
+            <a href="{% url 'blog:delete_entry' object.pk %}" class="btn confirm-danger">Удалить</a>
 
             {% endif %}
 

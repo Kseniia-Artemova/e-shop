@@ -11,7 +11,7 @@ def mediapath(object: models.Model) -> str:
 
     if object and object.image and hasattr(object.image, 'url'):
         return object.image.url
-    return f'{settings.MEDIA_URL}default.png'
+    return f'{settings.MEDIA_URL}products/default.png'
 
 
 @register.filter
@@ -20,4 +20,4 @@ def mediapath(object: models.Model) -> str:
 
     if object and object.image and hasattr(object.image, 'url'):
         return object.image.url
-    return f'{settings.MEDIA_URL}default.png'
+    return f'{settings.MEDIA_URL}products/default.png'

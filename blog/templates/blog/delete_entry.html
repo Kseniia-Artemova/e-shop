@@ -1,5 +1,5 @@
 {% extends 'catalog/base.html' %}
-{% load custom_tags %}
+{% load blog_custom_tags %}
 {% block content %}
 <div class="center-content">
     <div class="container">
@@ -16,7 +16,7 @@
                     {% csrf_token %}
                     <div class="btn-group mt-3" role="group">
                         <button type="submit" class="btn confirm-button confirm-danger">Стереть</button>
-                        <a href="{% url 'catalog:unpublished_entries' %}" class="btn confirm-button confirm-primary">Передумать</a>
+                        <a href="{% url 'blog:unpublished_entries' %}" class="btn confirm-button confirm-primary">Передумать</a>
                     </div>
                 </form>
             </div>

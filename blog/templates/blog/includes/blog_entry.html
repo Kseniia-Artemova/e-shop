@@ -1,12 +1,12 @@
-{% load custom_tags %}
+{% load blog_custom_tags %}
 <div class="card" style="width: 50rem; position: relative;">
     <img src="{% mediapath object %}" class="card-img-top" alt="...">
     <div class="small-text text-muted text-right mb-13">{{ object.creation_date }}</div>
     <div class="card-body">
         <h5 class="card-title">{{ object.title }}</h5>
         <p class="card-text">{{ object.content }}</p>
-        <a href="{% url 'catalog:blog_entry' object.pk %}" class="btn btn-primary">К записи</a>
-        <a href="{% url 'catalog:publish' object.pk %}" class="btn btn-primary">{{ button_text }}</a>
+        <a href="{% url 'blog:blog_entry' object.pk %}" class="btn btn-primary">К записи</a>
+        <a href="{% url 'blog:publish' object.pk %}" class="btn btn-primary">{{ button_text }}</a>
     </div>
     <div class="card-footer-text">
         Просмотров {{ object.number_views }}

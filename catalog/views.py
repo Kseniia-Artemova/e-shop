@@ -1,15 +1,8 @@
-import django.core.handlers.wsgi
-from django.http.response import HttpResponse
-from django.core.handlers.wsgi import WSGIRequest
-
-from django.shortcuts import render, redirect, get_object_or_404
-from catalog.services import send_congratulatory_email
 from django.db.models import QuerySet
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, CreateView, DetailView, UpdateView, DeleteView
 from config.settings import ENTRY_PATH
-from catalog.models import Product, Contact, Category, BlogEntry
-from pytils.translit import slugify
+from catalog.models import Product, Contact, Category
 
 
 # Create your views here.
@@ -221,121 +214,5 @@ class ProductDeleteView(DeleteView):
         context_data = super().get_context_data(**kwargs)
         extra_context = {
             'object': Product.objects.get(pk=self.kwargs.get('pk'))
-        }
-        return context_data | extra_context
-
-
-class BlogEntryListView(ListView):
-    """
-    Класс-контроллер для отображения страницы со списком публикаций блога
-    """
-    model = BlogEntry
-    template_name = 'catalog/blog.html'
-
-    def get_context_data(self, **kwargs) -> dict:
-        context_data = super().get_context_data(**kwargs)
-        object_list = BlogEntry.objects.filter(is_published=True)
-        object_list = object_list.order_by('-creation_date')
-        context_data['object_list'] = object_list
-        context_data['button_text'] = 'Разопубликовать'
-        return context_data
-
-
-class BlogEntryCreateView(CreateView):
-    """
-    Класс-контроллер для отображения формы создания новой публикации блога
-    """
-    model = BlogEntry
-    fields = ('title', 'content', 'image')
-    success_url = reverse_lazy('catalog:blog')
-    template_name = 'catalog/form_blog_entry.html'
-    extra_context = {
-        'action': 'Создать',
-    }
-
-    def form_valid(self, form):
-        if form.is_valid():
-            new_entry = form.save()
-            new_entry.slug = slugify(new_entry.title)
-            new_entry.save()
-        return super().form_valid(form)
-
-
-class BlogEntryUnpublishedListView(BlogEntryListView):
-    """
-    Класс-контроллер для отображения страницы со списком неопубликованных записей блога
-    """
-    model = BlogEntry
-    template_name = 'catalog/unpublished_entries.html'
-
-    def get_context_data(self, **kwargs) -> dict:
-        context_data = super().get_context_data(**kwargs)
-        object_list = BlogEntry.objects.filter(is_published=False)
-        object_list = object_list.order_by('-creation_date')
-        context_data['object_list'] = object_list
-        context_data['button_text'] = 'Опубликовать'
-        return context_data
-
-
-class BlogEntryDetailView(DetailView):
-    """
-    Класс-контроллер для отображения страницы с конкретной записью блога
-    """
-    model = BlogEntry
-    template_name = 'catalog/current_blog_entry.html'
-
-    def get_object(self, queryset=None) -> QuerySet:
-        self.object = super().get_object(queryset)
-        if self.object.is_published:
-            self.object.number_views += 1
-            self.object.save()
-        if self.object.number_views == 100:
-            send_congratulatory_email(self.object)
-        return self.object
-
-
-def publish_blog_entry(request, pk):
-    """
-    Контроллер для изменения статуса публикации
-    (is_published: True/False)
-    """
-    blog_entry = get_object_or_404(BlogEntry, pk=pk)
-    redirect_url = 'catalog:blog' if blog_entry.is_published else 'catalog:unpublished_entries'
-    blog_entry.is_published = not blog_entry.is_published
-    blog_entry.save()
-
-    return redirect(redirect_url)
-
-
-class BlogEntryUpdateView(UpdateView):
-    """
-    Класс-контроллер для изменения записи блога
-    """
-    model = BlogEntry
-    fields = ('title', 'content', 'image')
-    success_url = reverse_lazy('catalog:unpublished_entries')
-    template_name = 'catalog/form_blog_entry.html'
-
-    def get_context_data(self, **kwargs):
-        context_data = super().get_context_data(**kwargs)
-        extra_context = {
-            'action': 'Сохранить',
-            'object': BlogEntry.objects.get(pk=self.kwargs.get('pk'))
-        }
-        return context_data | extra_context
-
-
-class BlogEntryDeleteView(DeleteView):
-    """
-    Класс-контроллер для удаления записи блога
-    """
-    model = BlogEntry
-    template_name = 'catalog/delete_entry.html'
-    success_url = reverse_lazy('catalog:unpublished_entries')
-
-    def get_context_data(self, **kwargs):
-        context_data = super().get_context_data(**kwargs)
-        extra_context = {
-            'object': BlogEntry.objects.get(pk=self.kwargs.get('pk'))
         }
         return context_data | extra_context

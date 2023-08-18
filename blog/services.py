@@ -1,6 +1,6 @@
 from django.core.mail import send_mail
 from config import settings
-from catalog.models import BlogEntry
+from blog.models import BlogEntry
 
 
 def send_congratulatory_email(blog_entry: BlogEntry) -> None:

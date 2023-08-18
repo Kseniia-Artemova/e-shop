@@ -1,9 +1,9 @@
 {% extends 'catalog/base.html' %}
-{% load custom_tags %}
+{% load blog_custom_tags %}
 {% block content %}
 
 <div class="d-flex justify-content-center flex-column align-items-center">
-    <a href="{% url 'catalog:blog' %}" class="btn confirm-update btn-spacing"> << Опубликованные </a>
+    <a href="{% url 'blog:blog' %}" class="btn confirm-update btn-spacing"> << Опубликованные </a>
     <div class="container mt-4">
         <div class="row justify-content-center">
             <div class="col-12" >
