@@ -6,11 +6,11 @@ from django.db import models
 class BlogEntry(models.Model):
     title = models.CharField(
                         max_length=100,
-                        unique=True,
                         verbose_name='Заголовок'
                     )
     slug = models.SlugField(
                         max_length=150,
+                        unique=True,
                         verbose_name='slug'
                     )
     content = models.TextField(
