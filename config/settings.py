@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'catalog',
+    'blog',
 ]
 
 MIDDLEWARE = [
@@ -130,7 +131,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
-    BASE_DIR / 'catalog' / 'static'/ 'catalog',
+    BASE_DIR / 'catalog' / 'static' / 'catalog',
+    BASE_DIR / 'blog' / 'static' / 'blog',
 )
 
 # Default primary key field type
