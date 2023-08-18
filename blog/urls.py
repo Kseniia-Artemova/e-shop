@@ -10,8 +10,8 @@ urlpatterns = [
     path('blog/', BlogEntryListView.as_view(), name='blog'),
     path('unpublished_entries/', BlogEntryUnpublishedListView.as_view(), name='unpublished_entries'),
     path('new_entry/', BlogEntryCreateView.as_view(), name='new_entry'),
-    path('<int:pk>/entry/', BlogEntryDetailView.as_view(), name='blog_entry'),
-    path('activity/<int:pk>/', publish_blog_entry, name='publish'),
-    path('<int:pk>/update_entry/', BlogEntryUpdateView.as_view(), name='update_entry'),
-    path('<int:pk>/delete_entry/', BlogEntryDeleteView.as_view(), name='delete_entry'),
+    path('entry/<slug:slug>/', BlogEntryDetailView.as_view(), name='blog_entry'),
+    path('activity/<slug:slug>/', publish_blog_entry, name='publish'),
+    path('update_entry/<slug:slug>/', BlogEntryUpdateView.as_view(), name='update_entry'),
+    path('delete_entry/<slug:slug>/', BlogEntryDeleteView.as_view(), name='delete_entry'),
 ]

@@ -5,8 +5,8 @@
     <div class="card-body">
         <h5 class="card-title">{{ object.title }}</h5>
         <p class="card-text">{{ object.content }}</p>
-        <a href="{% url 'blog:blog_entry' object.pk %}" class="btn btn-primary">К записи</a>
-        <a href="{% url 'blog:publish' object.pk %}" class="btn btn-primary">{{ button_text }}</a>
+        <a href="{% url 'blog:blog_entry' object.slug %}" class="btn btn-primary">К записи</a>
+        <a href="{% url 'blog:publish' object.slug %}" class="btn btn-primary">{{ button_text }}</a>
     </div>
     <div class="card-footer-text">
         Просмотров {{ object.number_views }}

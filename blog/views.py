@@ -31,7 +31,7 @@ class BlogEntryCreateView(CreateView):
     """
     model = BlogEntry
     fields = ('title', 'content', 'image')
-    success_url = reverse_lazy('catalog:blog')
+    success_url = reverse_lazy('blog:unpublished_entries')
     template_name = 'blog/form_blog_entry.html'
     extra_context = {
         'action': 'Создать',
@@ -78,12 +78,12 @@ class BlogEntryDetailView(DetailView):
         return self.object
 
 
-def publish_blog_entry(request, pk):
+def publish_blog_entry(request, slug):
     """
     Контроллер для изменения статуса публикации
     (is_published: True/False)
     """
-    blog_entry = get_object_or_404(BlogEntry, pk=pk)
+    blog_entry = get_object_or_404(BlogEntry, slug=slug)
     redirect_url = 'blog:blog' if blog_entry.is_published else 'blog:unpublished_entries'
     blog_entry.is_published = not blog_entry.is_published
     blog_entry.save()
@@ -104,7 +104,7 @@ class BlogEntryUpdateView(UpdateView):
         context_data = super().get_context_data(**kwargs)
         extra_context = {
             'action': 'Сохранить',
-            'object': BlogEntry.objects.get(pk=self.kwargs.get('pk'))
+            'object': BlogEntry.objects.get(slug=self.kwargs.get('slug'))
         }
         return context_data | extra_context
 
@@ -120,6 +120,6 @@ class BlogEntryDeleteView(DeleteView):
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         extra_context = {
-            'object': BlogEntry.objects.get(pk=self.kwargs.get('pk'))
+            'object': BlogEntry.objects.get(slug=self.kwargs.get('slug'))
         }
         return context_data | extra_context
