@@ -39,10 +39,10 @@ class BlogEntryCreateView(CreateView):
 
     def form_valid(self, form):
         if form.is_valid():
-            new_entry = form.save()
+            new_entry = form.save(commit=False)
             new_entry.slug = slugify(new_entry.title)
             new_entry.save()
-        return super().form_valid(form)
+            return super().form_valid(form)
 
 
 class BlogEntryUnpublishedListView(BlogEntryListView):
