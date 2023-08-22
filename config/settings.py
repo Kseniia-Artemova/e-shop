@@ -19,6 +19,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Загрузить параметры базы данных из переменных окружения
 dotenv.load_dotenv()
+NAME_DB = os.getenv('NAME_DB')
 USER_DB = os.getenv('USER_DB')
 PASSWORD_DB = os.getenv('PASSWORD_DB')
 
@@ -46,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'catalog',
+    'blog',
 ]
 
 MIDDLEWARE = [
@@ -85,7 +87,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'catalog',
+        'NAME': NAME_DB,
         'USER': USER_DB,
         'PASSWORD': PASSWORD_DB
     }
@@ -126,10 +128,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
-    BASE_DIR / 'static',
+    BASE_DIR / 'catalog' / 'static' / 'catalog',
+    BASE_DIR / 'blog' / 'static' / 'blog',
 )
 
 # Default primary key field type
@@ -141,3 +144,10 @@ ENTRY_PATH = BASE_DIR / 'contact_info.txt'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'noreply@oscarbot.ru'
+RECIPIENT_EMAIL = os.getenv('EMAIL')
+EMAIL_HOST_PASSWORD = 'AsTSNVv7pun9'
+EMAIL_USE_SSL = True
