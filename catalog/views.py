@@ -3,6 +3,7 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, CreateView, DetailView, UpdateView, DeleteView
 from config.settings import ENTRY_PATH
 from catalog.models import Product, Contact, Category
+from catalog.forms import ProductForm
 
 
 # Create your views here.
@@ -157,9 +158,8 @@ class ProductCreateView(CreateView):
     """
     model = Product
     template_name = 'catalog/product_form.html'
-    fields = ('name', 'description', 'category', 'price', 'image')
+    form_class = ProductForm
     extra_context = {
-        'category_list': Category.objects.order_by('pk'),
         'action': 'Создать'
     }
     success_url = reverse_lazy('catalog:catalog')
@@ -189,13 +189,12 @@ class ProductUpdateView(UpdateView):
     """
     model = Product
     template_name = 'catalog/product_form.html'
-    fields = ('name', 'description', 'category', 'price', 'image')
+    form_class = ProductForm
     success_url = reverse_lazy('catalog:catalog')
 
     def get_context_data(self, **kwargs) -> dict:
         context_data = super().get_context_data(**kwargs)
         extra_context = {
-            'category_list': Category.objects.order_by('pk'),
             'action': 'Изменить',
             'object': Product.objects.get(pk=self.kwargs.get('pk'))
         }
