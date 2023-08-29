@@ -3,6 +3,11 @@ from catalog.models import Product
 
 
 class ProductForm(ModelForm):
+    """
+    Форма для модели Product
+
+    Проверяет поля name и description на присутствие запрещенных слов
+    """
 
     forbidden_words = ('казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция', 'радар')
 
