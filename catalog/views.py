@@ -1,4 +1,4 @@
-from django.db.models import QuerySet
+from django.db.models import QuerySet, Prefetch
 from django.forms import inlineformset_factory
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, CreateView, DetailView, UpdateView, DeleteView
@@ -84,9 +84,23 @@ class ProductsListView(ListView):
     model = Product
     template_name = 'catalog/catalog.html'
 
-    def get_queryset(self) -> QuerySet:
-        queryset = super().get_queryset()
-        return queryset.order_by('-change_date')
+    def get_queryset(self):
+        return Product.objects.all().prefetch_related(
+            Prefetch(
+                'version_set',
+                queryset=Version.objects.filter(status=True),
+                to_attr='fetched_active_version'
+            )
+        ).order_by('-change_date')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        products = context.get('product_list', [])
+
+        for product in products:
+            product.active_version = product.fetched_active_version[0] if product.fetched_active_version else None
+
+        return context
 
 
 # def category(request: WSGIRequest, pk: int) -> HttpResponse:
@@ -181,6 +195,11 @@ class ProductDetailView(DetailView):
     """
     model = Product
     template_name = 'catalog/product.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['active_version'] = Version.objects.filter(product=self.object, status=True).first()
+        return context
 
 
 class ProductUpdateView(UpdateView):
