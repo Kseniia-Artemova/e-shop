@@ -25,6 +25,11 @@
 
                 {{ formset.management_form }}
                 {% for subform in formset %}
+
+                    {% for hidden in subform.hidden_fields %}
+                        {{ hidden }}
+                    {% endfor %}
+
                     {% for field in subform %}
                         {% if not field.name == "id" and not field.name == "product" %}
                             {% if field.field.widget.input_type == "checkbox" %}
