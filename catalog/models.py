@@ -95,9 +95,9 @@ class Contact(models.Model):
 class Version(models.Model):
 
     product = models.ForeignKey('Product', on_delete=models.CASCADE, verbose_name='Товар')
-    number = models.PositiveSmallIntegerField(verbose_name='Номер')
-    name = models.CharField(max_length=100, verbose_name='Название')
-    status = models.BooleanField(default=True, verbose_name='Статус')
+    number = models.PositiveSmallIntegerField(verbose_name='Номер версии')
+    name = models.CharField(max_length=100, verbose_name='Название версии')
+    status = models.BooleanField(default=True, verbose_name='Активная версия')
 
     def __str__(self):
         return f"{self.name}: {self.number}, {self.status}"

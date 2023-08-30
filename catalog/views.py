@@ -1,10 +1,10 @@
 from django.db.models import QuerySet
+from django.forms import inlineformset_factory
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, CreateView, DetailView, UpdateView, DeleteView
 from config.settings import ENTRY_PATH
-from catalog.models import Product, Contact, Category
-from catalog.forms import ProductForm
-
+from catalog.models import Product, Contact, Category, Version
+from catalog.forms import ProductForm, VersionForm
 
 # Create your views here.
 COUNT_LATEST_PRODUCTS = 5
@@ -194,11 +194,32 @@ class ProductUpdateView(UpdateView):
 
     def get_context_data(self, **kwargs) -> dict:
         context_data = super().get_context_data(**kwargs)
+
+        VersionFormset = inlineformset_factory(Product,
+                                               Version,
+                                               form=VersionForm,
+                                               extra=1,
+                                               can_delete=False)
+        if self.request.method == 'POST':
+            formset = VersionFormset(self.request.POST, instance=self.object)
+        else:
+            formset = VersionFormset(instance=self.object)
+
         extra_context = {
             'action': 'Изменить',
-            'object': Product.objects.get(pk=self.kwargs.get('pk'))
+            'formset': formset,
         }
         return context_data | extra_context
+
+    def form_valid(self, form):
+        context_data = self.get_context_data()
+        formset = context_data['formset']
+        self.object = form.save()
+
+        if formset.is_valid():
+            formset.instance = self.object
+            formset.save()
+        return super().form_valid(form)
 
 
 class ProductDeleteView(DeleteView):
