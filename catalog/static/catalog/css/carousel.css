@@ -331,3 +331,9 @@ textarea {
     background-color: #5b636a;
     border-color: #3d4348;
 }
+
+.checkbox-left {
+    display: block;
+    margin-right: auto;
+    margin-left: 0;
+}

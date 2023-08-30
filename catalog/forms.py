@@ -1,8 +1,13 @@
 from django.forms import ModelForm, ValidationError
-from catalog.models import Product
+from catalog.models import Product, Version
 
 
 class ProductForm(ModelForm):
+    """
+    Форма для модели Product
+
+    Проверяет поля name и description на присутствие запрещенных слов
+    """
 
     forbidden_words = ('казино', 'криптовалюта', 'крипта', 'биржа', 'дешево', 'бесплатно', 'обман', 'полиция', 'радар')
 
@@ -28,3 +33,19 @@ class ProductForm(ModelForm):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control'
+
+
+class VersionForm(ModelForm):
+    """
+    Форма для модели Version
+    """
+
+    class Meta:
+        model = Version
+        fields = ('number', 'name', 'status')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
+        self.fields['status'].widget.attrs['class'] = 'checkbox-left'
