@@ -1,9 +1,10 @@
-from django.db.models import QuerySet
+from django.db.models import QuerySet, Prefetch
+from django.forms import inlineformset_factory
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, CreateView, DetailView, UpdateView, DeleteView
 from config.settings import ENTRY_PATH
-from catalog.models import Product, Contact, Category
-
+from catalog.models import Product, Contact, Category, Version
+from catalog.forms import ProductForm, VersionForm
 
 # Create your views here.
 COUNT_LATEST_PRODUCTS = 5
@@ -83,9 +84,23 @@ class ProductsListView(ListView):
     model = Product
     template_name = 'catalog/catalog.html'
 
-    def get_queryset(self) -> QuerySet:
-        queryset = super().get_queryset()
-        return queryset.order_by('-change_date')
+    def get_queryset(self):
+        return Product.objects.all().prefetch_related(
+            Prefetch(
+                'version_set',
+                queryset=Version.objects.filter(status=True),
+                to_attr='fetched_active_version'
+            )
+        ).order_by('-change_date')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        products = context.get('product_list', [])
+
+        for product in products:
+            product.active_version = product.fetched_active_version[0] if product.fetched_active_version else None
+
+        return context
 
 
 # def category(request: WSGIRequest, pk: int) -> HttpResponse:
@@ -157,9 +172,8 @@ class ProductCreateView(CreateView):
     """
     model = Product
     template_name = 'catalog/product_form.html'
-    fields = ('name', 'description', 'category', 'price', 'image')
+    form_class = ProductForm
     extra_context = {
-        'category_list': Category.objects.order_by('pk'),
         'action': 'Создать'
     }
     success_url = reverse_lazy('catalog:catalog')
@@ -182,6 +196,11 @@ class ProductDetailView(DetailView):
     model = Product
     template_name = 'catalog/product.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['active_version'] = Version.objects.filter(product=self.object, status=True).first()
+        return context
+
 
 class ProductUpdateView(UpdateView):
     """
@@ -189,17 +208,37 @@ class ProductUpdateView(UpdateView):
     """
     model = Product
     template_name = 'catalog/product_form.html'
-    fields = ('name', 'description', 'category', 'price', 'image')
+    form_class = ProductForm
     success_url = reverse_lazy('catalog:catalog')
 
     def get_context_data(self, **kwargs) -> dict:
         context_data = super().get_context_data(**kwargs)
+
+        VersionFormset = inlineformset_factory(Product,
+                                               Version,
+                                               form=VersionForm,
+                                               extra=1,
+                                               can_delete=False)
+        if self.request.method == 'POST':
+            formset = VersionFormset(self.request.POST, instance=self.object)
+        else:
+            formset = VersionFormset(instance=self.object)
+
         extra_context = {
-            'category_list': Category.objects.order_by('pk'),
             'action': 'Изменить',
-            'object': Product.objects.get(pk=self.kwargs.get('pk'))
+            'formset': formset,
         }
         return context_data | extra_context
+
+    def form_valid(self, form):
+        context_data = self.get_context_data()
+        formset = context_data['formset']
+        self.object = form.save()
+
+        if formset.is_valid():
+            formset.instance = self.object
+            formset.save()
+        return super().form_valid(form)
 
 
 class ProductDeleteView(DeleteView):

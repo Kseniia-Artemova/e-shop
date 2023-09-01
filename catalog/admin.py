@@ -1,5 +1,5 @@
 from django.contrib import admin
-from catalog.models import Category, Product, Contact
+from catalog.models import Category, Product, Contact, Version
 from django.utils.html import format_html
 
 # Register your models here.
@@ -57,3 +57,13 @@ class ContactAdmin(admin.ModelAdmin):
     """
     list_display = ('id', 'name', 'inn', 'address')
     search_fields = ('inn', )
+
+
+@admin.register(Version)
+class VersionAdmin(admin.ModelAdmin):
+    """
+    Отображение версии продукта
+    """
+    list_display = ('id', 'product', 'number', 'name', 'status')
+    search_fields = ('product', )
+    list_filter = ('status', 'product',)

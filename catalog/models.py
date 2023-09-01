@@ -28,7 +28,8 @@ class Product(models.Model):
                         )
     price = models.DecimalField(
                             max_digits=8,
-                            decimal_places=2
+                            decimal_places=2,
+                            verbose_name='Стоимость'
                         )
     creation_date = models.DateTimeField(
                             auto_now_add=True,
@@ -89,3 +90,23 @@ class Contact(models.Model):
     class Meta:
         verbose_name = 'Контакт'
         verbose_name_plural = 'Контакты'
+
+
+class Version(models.Model):
+
+    product = models.ForeignKey('Product', on_delete=models.CASCADE, verbose_name='Товар')
+    number = models.PositiveSmallIntegerField(verbose_name='Номер версии')
+    name = models.CharField(max_length=100, verbose_name='Название версии')
+    status = models.BooleanField(default=True, verbose_name='Активная версия')
+
+    def __str__(self):
+        return f"{self.name}: {self.number}, {self.status}"
+
+    def save(self, *args, **kwargs):
+        if self.status:
+            Version.objects.filter(product=self.product, status=True).update(status=False)
+        super(Version, self).save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = 'Версия'
+        verbose_name_plural = 'Версии'
