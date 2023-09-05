@@ -73,6 +73,8 @@ class UserUpdateView(UpdateView):
 
 
 def generate_new_password(request):
+    """Контроллер для генерации нового пароля и отправки его на почту существующего пользователя"""
+
     if request.method == 'POST':
         email = request.POST.get('email')
 

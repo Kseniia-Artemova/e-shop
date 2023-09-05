@@ -18,8 +18,11 @@
 
             {% else %}
             <a href="{% url 'blog:unpublished_entries' %}" class="btn confirm-primary">Вернуться к записям</a>
-            <a href="{% url 'blog:update_entry' object.slug %}" class="btn confirm-primary">Изменить</a>
-            <a href="{% url 'blog:delete_entry' object.slug %}" class="btn confirm-danger">Удалить</a>
+
+            {% if user.is_authenticated and object.author == user or user.is_superuser %}
+                <a href="{% url 'blog:update_entry' object.slug %}" class="btn confirm-primary">Изменить</a>
+                <a href="{% url 'blog:delete_entry' object.slug %}" class="btn confirm-danger">Удалить</a>
+            {% endif %}
 
             {% endif %}
 

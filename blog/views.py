@@ -1,3 +1,6 @@
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import Http404
 from django.shortcuts import redirect, get_object_or_404
 from blog.services import send_congratulatory_email
 from django.db.models import QuerySet
@@ -26,7 +29,7 @@ class BlogEntryListView(ListView):
         return context_data
 
 
-class BlogEntryCreateView(CreateView):
+class BlogEntryCreateView(LoginRequiredMixin, CreateView):
     """
     Класс-контроллер для отображения формы создания новой публикации блога
     """
@@ -48,7 +51,7 @@ class BlogEntryCreateView(CreateView):
             return super().form_valid(form)
 
 
-class BlogEntryUnpublishedListView(BlogEntryListView):
+class BlogEntryUnpublishedListView(LoginRequiredMixin, BlogEntryListView):
     """
     Класс-контроллер для отображения страницы со списком неопубликованных записей блога
     """
@@ -59,6 +62,10 @@ class BlogEntryUnpublishedListView(BlogEntryListView):
     def get_context_data(self, **kwargs) -> dict:
         context_data = super().get_context_data(**kwargs)
         object_list = BlogEntry.objects.filter(is_published=False)
+
+        if not self.request.user.is_superuser:
+            object_list = object_list.filter(author=self.request.user)
+
         object_list = object_list.order_by('-creation_date')
         context_data['object_list'] = object_list
         context_data['button_text'] = 'Опубликовать'
@@ -82,7 +89,7 @@ class BlogEntryDetailView(DetailView):
             send_congratulatory_email(self.object)
         return self.object
 
-
+@login_required
 def publish_blog_entry(request, slug):
     """
     Контроллер для изменения статуса публикации
@@ -97,7 +104,7 @@ def publish_blog_entry(request, slug):
     return redirect(redirect_url)
 
 
-class BlogEntryUpdateView(UpdateView):
+class BlogEntryUpdateView(LoginRequiredMixin, UpdateView):
     """
     Класс-контроллер для изменения записи блога
     """
@@ -106,6 +113,12 @@ class BlogEntryUpdateView(UpdateView):
     fields = ('title', 'content', 'image')
     success_url = reverse_lazy('blog:unpublished_entries')
     template_name = 'blog/form_blog_entry.html'
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.object.author != self.request.user and not self.request.user.is_superuser:
+            raise Http404
+        return self.object
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -116,7 +129,7 @@ class BlogEntryUpdateView(UpdateView):
         return context_data | extra_context
 
 
-class BlogEntryDeleteView(DeleteView):
+class BlogEntryDeleteView(LoginRequiredMixin, DeleteView):
     """
     Класс-контроллер для удаления записи блога
     """
@@ -124,6 +137,12 @@ class BlogEntryDeleteView(DeleteView):
     model = BlogEntry
     template_name = 'blog/delete_entry.html'
     success_url = reverse_lazy('blog:unpublished_entries')
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.object.author != self.request.user or not self.request.user.is_superuser:
+            raise Http404
+        return self.object
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)

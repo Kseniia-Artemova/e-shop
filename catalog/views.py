@@ -229,7 +229,7 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)
-        if self.object.owner != self.request.user or not self.request.user.is_superuser:
+        if self.object.owner != self.request.user and not self.request.user.is_superuser:
             raise Http404
         return self.object
 
@@ -274,7 +274,7 @@ class ProductDeleteView(LoginRequiredMixin, DeleteView):
 
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)
-        if self.object.owner != self.request.user:
+        if self.object.owner != self.request.user and not self.request.user.is_superuser:
             raise Http404
         return self.object
 
