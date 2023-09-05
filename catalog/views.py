@@ -1,5 +1,7 @@
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import QuerySet, Prefetch
 from django.forms import inlineformset_factory
+from django.http import Http404
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, CreateView, DetailView, UpdateView, DeleteView
 from config.settings import ENTRY_PATH
@@ -168,7 +170,7 @@ class CategoryProductsListView(ListView):
 #     return render(request, 'catalog/create_product.html', context)
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
     """
     Класс-контроллер для отображения страницы с карточкой описания нового товара.
     После отправки этой информации товар будет создан и добавлен в базу данных,
@@ -215,7 +217,7 @@ class ProductDetailView(DetailView):
         return context
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     """
     Класс-контроллер для изменения карточки товара
     """
@@ -224,6 +226,12 @@ class ProductUpdateView(UpdateView):
     template_name = 'catalog/product_form.html'
     form_class = ProductForm
     success_url = reverse_lazy('catalog:catalog')
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.object.owner != self.request.user or not self.request.user.is_superuser:
+            raise Http404
+        return self.object
 
     def get_context_data(self, **kwargs) -> dict:
         context_data = super().get_context_data(**kwargs)
@@ -255,7 +263,7 @@ class ProductUpdateView(UpdateView):
         return super().form_valid(form)
 
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
     """
     Класс-контроллер для удаления товара
     """
@@ -263,6 +271,12 @@ class ProductDeleteView(DeleteView):
     model = Product
     template_name = 'catalog/delete_form.html'
     success_url = reverse_lazy('catalog:catalog')
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.object.owner != self.request.user:
+            raise Http404
+        return self.object
 
     def get_context_data(self, **kwargs) -> dict:
         context_data = super().get_context_data(**kwargs)

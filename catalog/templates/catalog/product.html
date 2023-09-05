@@ -53,9 +53,13 @@
 
     <div class="row centered-buttons">
         <div class="button-center">
-            <a href="{% url 'catalog:update_product' product.pk %}"  class="btn btn-primary btn-centered big-buttons">Изменить</a>
+            {% if user.is_authenticated and product.owner == user or user.is_superuser %}
+                <a href="{% url 'catalog:update_product' product.pk %}"  class="btn btn-primary btn-centered big-buttons">Изменить</a>
+            {% endif %}
             <a href="{% url 'catalog:catalog' %}"  class="btn btn-primary confirm-update big-buttons">Вернуться к остальным</a>
-            <a href="{% url 'catalog:delete_product' product.pk %}"  class="btn btn-primary confirm-danger big-buttons">Отпустить</a>
+            {% if user.is_authenticated and product.owner == user or user.is_superuser %}
+                <a href="{% url 'catalog:delete_product' product.pk %}"  class="btn btn-primary confirm-danger big-buttons">Отпустить</a>
+            {% endif %}
         </div>
     </div>
 </div>

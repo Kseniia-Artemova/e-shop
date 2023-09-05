@@ -4,7 +4,7 @@
     <div class="small-text text-muted text-right mb-13">{{ object.creation_date }}</div>
     <div class="card-body">
         <h5 class="card-title">{{ object.title }}</h5>
-        <p class="card-text">{{ object.content }}</p>
+        <div class="card-text">{{ object.content|linebreaks }}</div>
         {% if object.author %}
             <div class="text-muted mb-3">Автор: {{ object.author }}</div>
         {% endif %}
