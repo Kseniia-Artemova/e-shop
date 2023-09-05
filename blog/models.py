@@ -1,9 +1,13 @@
 from django.db import models
+from users.models import User
+
 
 # Create your models here.
 
 
 class BlogEntry(models.Model):
+    """Модель для описания отдельной записи блога"""
+
     title = models.CharField(
                         max_length=100,
                         verbose_name='Заголовок'
@@ -25,6 +29,13 @@ class BlogEntry(models.Model):
                         blank=True,
                         verbose_name='Изображение'
                     )
+    author = models.ForeignKey(
+                            User,
+                            blank=True,
+                            null=True,
+                            on_delete=models.SET_NULL,
+                            verbose_name='Автор'
+                        )
     creation_date = models.DateTimeField(
                         auto_now_add=True,
                         verbose_name='Дата создания'

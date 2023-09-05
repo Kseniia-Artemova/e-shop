@@ -1,5 +1,7 @@
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import QuerySet, Prefetch
 from django.forms import inlineformset_factory
+from django.http import Http404
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, CreateView, DetailView, UpdateView, DeleteView
 from config.settings import ENTRY_PATH
@@ -25,6 +27,7 @@ class HomeView(TemplateView):
     """
     Класс-контроллер для отображения домашней страницы
     """
+
     template_name = 'catalog/home.html'
     extra_context = {
         'product_list': Product.objects.order_by('-change_date')[:COUNT_LATEST_PRODUCTS],
@@ -52,6 +55,7 @@ class ContactsView(TemplateView):
     """
     Класс-контроллер для отображения страницы с контактами и обратной связью
     """
+
     template_name = 'catalog/contacts.html'
 
     def get_context_data(self, **kwargs) -> dict:
@@ -81,6 +85,7 @@ class ProductsListView(ListView):
     Класс-контроллер для отображения страницы со списком всех товаров
     в порядке от новых к более старым
     """
+
     model = Product
     template_name = 'catalog/catalog.html'
 
@@ -121,6 +126,7 @@ class CategoryProductsListView(ListView):
     Класс-контроллер для отображения страницы со списком товаров,
     принадлежащих конкретной категории
     """
+
     model = Product
     template_name = 'catalog/category.html'
 
@@ -164,12 +170,13 @@ class CategoryProductsListView(ListView):
 #     return render(request, 'catalog/create_product.html', context)
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
     """
     Класс-контроллер для отображения страницы с карточкой описания нового товара.
     После отправки этой информации товар будет создан и добавлен в базу данных,
     если все обязательные поля заполнены
     """
+
     model = Product
     template_name = 'catalog/product_form.html'
     form_class = ProductForm
@@ -177,6 +184,13 @@ class ProductCreateView(CreateView):
         'action': 'Создать'
     }
     success_url = reverse_lazy('catalog:catalog')
+
+    def form_valid(self, form):
+        self.object = form.save()
+        self.object.owner = self.request.user
+        self.object.save()
+
+        return super().form_valid(form)
 
 
 # def product(request: WSGIRequest, pk: int) -> HttpResponse:
@@ -193,6 +207,7 @@ class ProductDetailView(DetailView):
     """
     Класс-контроллер для отображения страницы с описанием конкретного товара
     """
+
     model = Product
     template_name = 'catalog/product.html'
 
@@ -202,14 +217,21 @@ class ProductDetailView(DetailView):
         return context
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     """
     Класс-контроллер для изменения карточки товара
     """
+
     model = Product
     template_name = 'catalog/product_form.html'
     form_class = ProductForm
     success_url = reverse_lazy('catalog:catalog')
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.object.owner != self.request.user and not self.request.user.is_superuser:
+            raise Http404
+        return self.object
 
     def get_context_data(self, **kwargs) -> dict:
         context_data = super().get_context_data(**kwargs)
@@ -241,13 +263,20 @@ class ProductUpdateView(UpdateView):
         return super().form_valid(form)
 
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
     """
     Класс-контроллер для удаления товара
     """
+
     model = Product
     template_name = 'catalog/delete_form.html'
     success_url = reverse_lazy('catalog:catalog')
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.object.owner != self.request.user and not self.request.user.is_superuser:
+            raise Http404
+        return self.object
 
     def get_context_data(self, **kwargs) -> dict:
         context_data = super().get_context_data(**kwargs)
