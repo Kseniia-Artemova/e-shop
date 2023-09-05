@@ -13,7 +13,7 @@ class ProductForm(ModelForm):
 
     class Meta:
         model = Product
-        exclude = ('creation_date', 'change_date')
+        exclude = ('creation_date', 'change_date', 'owner',)
 
     def clean_name(self):
         cleaned_data = self.cleaned_data.get('name')

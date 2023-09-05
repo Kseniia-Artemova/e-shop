@@ -9,6 +9,9 @@
             <h5 class="card-title">{{ object.title }}</h5>
             <p class="card-title">slug: {{ object.slug }}</p>
             <p class="card-text">{{ object.content }}</p>
+            {% if object.author %}
+                <div class="text-muted mb-3">Автор: {{ object.author }}</div>
+            {% endif %}
 
             {% if object.is_published %}
             <a href="{% url 'blog:blog' %}" class="btn confirm-primary">Вернуться к записям</a>

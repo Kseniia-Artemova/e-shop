@@ -15,6 +15,7 @@
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">Цена: {{ product.price }} rub</li>
                 <li class="list-group-item"><span class="text-muted">Категория: {{ product.category }}</span></li>
+                <li class="list-group-item"><span class="text-muted">Владелец: {% if product.owner %}{{ product.owner }}{% else %}На общем попечении{% endif %}</span></li>
                 <li class="list-group-item"><span class="text-muted">Дата создания: {{ product.creation_date }}</span></li>
                 <li class="list-group-item"><span class="text-muted">Дата изменения: {{ product.change_date }}</span></li>
                 <li class="list-group-item"><span class="text-muted">Активная версия: {% if product.active_version %}{{ product.active_version.name }}{% else %}Не задана{% endif %}</span></li>

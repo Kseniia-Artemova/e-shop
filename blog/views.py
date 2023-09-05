@@ -41,9 +41,10 @@ class BlogEntryCreateView(CreateView):
 
     def form_valid(self, form):
         if form.is_valid():
-            new_entry = form.save(commit=False)
-            new_entry.slug = slugify(new_entry.title)
-            new_entry.save()
+            self.object = form.save(commit=False)
+            self.object.slug = slugify(self.object.title)
+            self.object.author = self.request.user
+            self.object.save()
             return super().form_valid(form)
 
 

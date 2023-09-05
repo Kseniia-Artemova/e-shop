@@ -5,6 +5,9 @@
     <div class="card-body">
         <h5 class="card-title">{{ object.title }}</h5>
         <p class="card-text">{{ object.content }}</p>
+        {% if object.author %}
+            <div class="text-muted mb-3">Автор: {{ object.author }}</div>
+        {% endif %}
         <a href="{% url 'blog:blog_entry' object.slug %}" class="btn btn-primary">К записи</a>
         <a href="{% url 'blog:publish' object.slug %}" class="btn btn-primary">{{ button_text }}</a>
     </div>

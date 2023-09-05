@@ -183,6 +183,13 @@ class ProductCreateView(CreateView):
     }
     success_url = reverse_lazy('catalog:catalog')
 
+    def form_valid(self, form):
+        self.object = form.save()
+        self.object.owner = self.request.user
+        self.object.save()
+
+        return super().form_valid(form)
+
 
 # def product(request: WSGIRequest, pk: int) -> HttpResponse:
 #     """
