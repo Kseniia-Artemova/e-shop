@@ -4,6 +4,8 @@ from django.utils.translation import gettext_lazy as _
 
 
 class User(AbstractUser):
+    """Модель для описания пользователя, в качестве основного идентификатора используется e-mail"""
+
     username = None
 
     email = models.EmailField(unique=True, verbose_name='E-mail')

@@ -4,6 +4,8 @@ from django.db import models
 
 
 class BlogEntry(models.Model):
+    """Модель для описания отдельной записи блога"""
+
     title = models.CharField(
                         max_length=100,
                         verbose_name='Заголовок'

@@ -7,6 +7,7 @@ class Product(models.Model):
     """
     Модель для описания товара
     """
+
     name = models.CharField(
                             max_length=100,
                             verbose_name='Наименование'
@@ -53,6 +54,7 @@ class Category(models.Model):
     """
     Модель для описания категории товара
     """
+
     name = models.CharField(
                         max_length=100,
                         verbose_name='Наименование'
@@ -80,6 +82,7 @@ class Contact(models.Model):
     """
     Модель для описания контактных данных
     """
+
     name = models.CharField(max_length=100, verbose_name='Страна')
     inn = models.CharField(max_length=30, verbose_name='ИНН')
     address = models.CharField(max_length=500, verbose_name='Адрес')
@@ -93,6 +96,7 @@ class Contact(models.Model):
 
 
 class Version(models.Model):
+    """Модель для описания версии товара"""
 
     product = models.ForeignKey('Product', on_delete=models.CASCADE, verbose_name='Товар')
     number = models.PositiveSmallIntegerField(verbose_name='Номер версии')

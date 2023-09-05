@@ -25,6 +25,7 @@ class HomeView(TemplateView):
     """
     Класс-контроллер для отображения домашней страницы
     """
+
     template_name = 'catalog/home.html'
     extra_context = {
         'product_list': Product.objects.order_by('-change_date')[:COUNT_LATEST_PRODUCTS],
@@ -52,6 +53,7 @@ class ContactsView(TemplateView):
     """
     Класс-контроллер для отображения страницы с контактами и обратной связью
     """
+
     template_name = 'catalog/contacts.html'
 
     def get_context_data(self, **kwargs) -> dict:
@@ -81,6 +83,7 @@ class ProductsListView(ListView):
     Класс-контроллер для отображения страницы со списком всех товаров
     в порядке от новых к более старым
     """
+
     model = Product
     template_name = 'catalog/catalog.html'
 
@@ -121,6 +124,7 @@ class CategoryProductsListView(ListView):
     Класс-контроллер для отображения страницы со списком товаров,
     принадлежащих конкретной категории
     """
+
     model = Product
     template_name = 'catalog/category.html'
 
@@ -170,6 +174,7 @@ class ProductCreateView(CreateView):
     После отправки этой информации товар будет создан и добавлен в базу данных,
     если все обязательные поля заполнены
     """
+
     model = Product
     template_name = 'catalog/product_form.html'
     form_class = ProductForm
@@ -193,6 +198,7 @@ class ProductDetailView(DetailView):
     """
     Класс-контроллер для отображения страницы с описанием конкретного товара
     """
+
     model = Product
     template_name = 'catalog/product.html'
 
@@ -206,6 +212,7 @@ class ProductUpdateView(UpdateView):
     """
     Класс-контроллер для изменения карточки товара
     """
+
     model = Product
     template_name = 'catalog/product_form.html'
     form_class = ProductForm
@@ -245,6 +252,7 @@ class ProductDeleteView(DeleteView):
     """
     Класс-контроллер для удаления товара
     """
+
     model = Product
     template_name = 'catalog/delete_form.html'
     success_url = reverse_lazy('catalog:catalog')

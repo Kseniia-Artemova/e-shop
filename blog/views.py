@@ -13,6 +13,7 @@ class BlogEntryListView(ListView):
     """
     Класс-контроллер для отображения страницы со списком публикаций блога
     """
+
     model = BlogEntry
     template_name = 'blog/blog.html'
 
@@ -29,6 +30,7 @@ class BlogEntryCreateView(CreateView):
     """
     Класс-контроллер для отображения формы создания новой публикации блога
     """
+
     model = BlogEntry
     fields = ('title', 'content', 'image')
     success_url = reverse_lazy('blog:unpublished_entries')
@@ -49,6 +51,7 @@ class BlogEntryUnpublishedListView(BlogEntryListView):
     """
     Класс-контроллер для отображения страницы со списком неопубликованных записей блога
     """
+
     model = BlogEntry
     template_name = 'blog/unpublished_entries.html'
 
@@ -65,6 +68,7 @@ class BlogEntryDetailView(DetailView):
     """
     Класс-контроллер для отображения страницы с конкретной записью блога
     """
+
     model = BlogEntry
     template_name = 'blog/current_blog_entry.html'
 
@@ -83,6 +87,7 @@ def publish_blog_entry(request, slug):
     Контроллер для изменения статуса публикации
     (is_published: True/False)
     """
+
     blog_entry = get_object_or_404(BlogEntry, slug=slug)
     redirect_url = 'blog:blog' if blog_entry.is_published else 'blog:unpublished_entries'
     blog_entry.is_published = not blog_entry.is_published
@@ -95,6 +100,7 @@ class BlogEntryUpdateView(UpdateView):
     """
     Класс-контроллер для изменения записи блога
     """
+
     model = BlogEntry
     fields = ('title', 'content', 'image')
     success_url = reverse_lazy('blog:unpublished_entries')
@@ -113,6 +119,7 @@ class BlogEntryDeleteView(DeleteView):
     """
     Класс-контроллер для удаления записи блога
     """
+
     model = BlogEntry
     template_name = 'blog/delete_entry.html'
     success_url = reverse_lazy('blog:unpublished_entries')
