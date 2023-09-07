@@ -104,6 +104,7 @@ class Contact(models.Model):
 
 
 class Version(models.Model):
+
     """Модель для описания версии товара"""
 
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='Товар')
