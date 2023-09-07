@@ -46,8 +46,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'django_dump_load_utf8',
     'catalog',
     'blog',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -151,3 +153,9 @@ EMAIL_HOST_USER = 'noreply@oscarbot.ru'
 RECIPIENT_EMAIL = os.getenv('EMAIL')
 EMAIL_HOST_PASSWORD = 'AsTSNVv7pun9'
 EMAIL_USE_SSL = True
+
+AUTH_USER_MODEL = 'users.User'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
+LOGIN_URL = '/users/'
