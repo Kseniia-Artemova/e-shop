@@ -10,7 +10,12 @@ class User(AbstractUser):
 
     email = models.EmailField(unique=True, verbose_name='E-mail')
 
-    avatar = models.ImageField(blank=True, null=True, upload_to='users/', default='users/anonim.jpg', verbose_name='Аватар')
+    avatar = models.ImageField(blank=True,
+                               null=True,
+                               upload_to='users/',
+                               default='users/anonim.jpg',
+                               verbose_name='Аватар')
+
     phone = models.CharField(blank=True, null=True, max_length=60, verbose_name='Телефон')
     country = models.CharField(blank=True, null=True, max_length=60, verbose_name='Страна')
 
@@ -23,7 +28,11 @@ class User(AbstractUser):
         ),
     )
 
-    verification_code = models.CharField(max_length=10, unique=True, null=True, verbose_name='Код верификации')
+    verification_code = models.CharField(max_length=10,
+                                         unique=True,
+                                         null=True,
+                                         blank=True,
+                                         verbose_name='Код верификации')
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

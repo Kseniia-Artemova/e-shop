@@ -10,7 +10,8 @@ class Command(BaseCommand):
         user = User.objects.create(
             email=os.getenv('ADMIN_EMAIL'),
             is_staff=True,
-            is_superuser=True
+            is_superuser=True,
+            is_active=True,
         )
         user.set_password(os.getenv('ADMIN_PASSWORD'))
         user.save()
