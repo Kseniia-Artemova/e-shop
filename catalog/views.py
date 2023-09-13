@@ -4,6 +4,8 @@ from django.forms import inlineformset_factory
 from django.http import Http404
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, CreateView, DetailView, UpdateView, DeleteView
+
+from catalog import services
 from config.settings import ENTRY_PATH
 from catalog.models import Product, Contact, Category, Version
 from catalog.forms import ProductForm, VersionForm
@@ -31,7 +33,7 @@ class HomeView(TemplateView):
     template_name = 'catalog/home.html'
     extra_context = {
         'product_list': Product.objects.order_by('-change_date')[:COUNT_LATEST_PRODUCTS],
-        'category_list': Category.objects.all()
+        'category_list': services.get_categories_cache()
     }
 
 

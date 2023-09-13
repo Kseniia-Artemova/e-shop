@@ -2,7 +2,7 @@ from django.core.mail import send_mail
 from config import settings
 
 
-def send_verification_url(url, email):
+def send_verification_url(url: str, email: str) -> None:
     """
     Функция для оправки ссылки для верификации на почту пользователя
     """
@@ -16,7 +16,7 @@ def send_verification_url(url, email):
     )
 
 
-def send_new_password(password, email):
+def send_new_password(password: str, email: str) -> None:
     """
     Функция для оправки нового пароля на почту пользователя
     """

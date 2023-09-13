@@ -1,23 +1,23 @@
 from django import template
-from django.db import models
 from config import settings
+from users.models import User
 
 register = template.Library()
 
 
 @register.simple_tag
-def mediapath(object: models.Model) -> str:
+def mediapath(object: User) -> str:
     """Шаблонный тег для построения пути к медиафайлам приложения"""
 
     if object and object.avatar and hasattr(object.avatar, 'url'):
         return object.avatar.url
-    return f'{settings.MEDIA_URL}users/default.png'
+    return f'{settings.MEDIA_URL}users/anonim.jpg'
 
 
 @register.filter
-def mediapath(object: models.Model) -> str:
+def mediapath(object: User) -> str:
     """Шаблонный фильтр для построения пути к медиафайлам приложения"""
 
     if object and object.avatar and hasattr(object.avatar, 'url'):
         return object.avatar.url
-    return f'{settings.MEDIA_URL}users/default.png'
+    return f'{settings.MEDIA_URL}users/anonim.jpg'

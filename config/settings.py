@@ -18,20 +18,17 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Загрузить параметры базы данных из переменных окружения
-dotenv.load_dotenv()
-NAME_DB = os.getenv('NAME_DB')
-USER_DB = os.getenv('USER_DB')
-PASSWORD_DB = os.getenv('PASSWORD_DB')
-
+dotenv_path = BASE_DIR / '.env'
+dotenv.load_dotenv(dotenv_path=dotenv_path)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-+s@-#qy-xh*_xwobl10e()(n)gjwtu(-!(lh39i5x9ptehb(*z'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG') == 'True'
 
 ALLOWED_HOSTS = []
 
@@ -53,6 +50,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'django.middleware.cache.UpdateCacheMiddleware',
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -60,6 +59,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'django.middleware.cache.FetchFromCacheMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -89,9 +90,9 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': NAME_DB,
-        'USER': USER_DB,
-        'PASSWORD': PASSWORD_DB
+        'NAME': os.getenv('NAME_DB'),
+        'USER': os.getenv('USER_DB'),
+        'PASSWORD': os.getenv('PASSWORD_DB'),
     }
 }
 
@@ -134,7 +135,6 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
     BASE_DIR / 'catalog' / 'static' / 'catalog',
-    BASE_DIR / 'blog' / 'static' / 'blog',
 )
 
 # Default primary key field type
@@ -147,15 +147,26 @@ ENTRY_PATH = BASE_DIR / 'contact_info.txt'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-EMAIL_HOST = 'smtp.yandex.ru'
-EMAIL_PORT = 465
-EMAIL_HOST_USER = 'noreply@oscarbot.ru'
-RECIPIENT_EMAIL = os.getenv('EMAIL')
-EMAIL_HOST_PASSWORD = 'AsTSNVv7pun9'
-EMAIL_USE_SSL = True
+# Настройки для отправки электронной почты
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_PORT = int(os.getenv('EMAIL_PORT'))
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+RECIPIENT_EMAIL = os.getenv('RECIPIENT_EMAIL')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL') == 'True'
 
 AUTH_USER_MODEL = 'users.User'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 LOGIN_URL = '/users/'
+
+CACHE_ENABLED = os.getenv('CACHE_ENABLED') == 'True'
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": os.getenv('LOCATION'),
+        "TIMEOUT": 300,
+    }
+}
