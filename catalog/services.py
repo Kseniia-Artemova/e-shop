@@ -12,7 +12,7 @@ def get_categories_cache() -> list[Category]:
     if settings.CACHE_ENABLED:
         key = 'category_list'
         category_list = cache.get(key)
-        if not category_list:
+        if category_list is None:
             category_list = Category.objects.all()
             cache.set(key, category_list)
     else:
